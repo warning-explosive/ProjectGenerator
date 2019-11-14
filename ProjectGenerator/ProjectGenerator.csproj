@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+	<TargetFramework>netstandard2.0</TargetFramework>
+	<LangVersion>latest</LangVersion>
+	<Nullable>enable</Nullable>
+	<AssemblyName>SpaceEngineers.ProjectGenerator</AssemblyName>
+	<RootNamespace>SpaceEngineers.ProjectGenerator</RootNamespace>
+	<Version>1.0.0-alpha</Version>
+	<Description>Netcore project generator</Description>
+	<PackageTags>SpaceEngineers ProjectGenerator</PackageTags>
+	<Company>SpaceEngineers</Company>
+	<Authors>SpaceEngineers</Authors>
+	<RepositoryUrl>https://github.com/warning-explosive/ProjectGenerator</RepositoryUrl>
+	<RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+	
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+	
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="SpaceEngineers.Core.CompositionRoot" Version="1.0.0-alpha" />
+    <PackageReference Include="SpaceEngineers.Core.Extensions" Version="1.0.0-alpha" />
+    <PackageReference Include="SpaceEngineers.Core.Utilities.CliArgumentsParser" Version="1.0.0-alpha" />
+    <PackageReference Include="SpaceEngineers.ExecutableApplication.Abstractions" Version="1.0.0-alpha" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ProjectSettingsProviderImpl.cs">
+      <DependentUpon>ISettingsProvider.cs</DependentUpon>
+    </Compile>
+    <Compile Update="UnsafeGeneratorCliArgs.cs">
+      <DependentUpon>GeneratorCliArgs.cs</DependentUpon>
+    </Compile>
+    <Compile Update="CliArgsExtensions.cs">
+      <DependentUpon>GeneratorCliArgs.cs</DependentUpon>
+    </Compile>
+    <Compile Update="ProjectProcessorImpl.cs">
+      <DependentUpon>IProjectProcessor.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>
