@@ -1,0 +1,2 @@
+# ProjectGenerator
+*.csproj file generator
