@@ -3,7 +3,6 @@ namespace SpaceEngineers.ProjectGenerator
     using System.Collections.Generic;
     using Core.CompositionRoot.Attributes;
     using Core.CompositionRoot.Enumerations;
-    using Enumerations;
     using Infos;
 
     [Lifestyle(EnLifestyle.Singleton)]
@@ -23,11 +22,13 @@ namespace SpaceEngineers.ProjectGenerator
             RepositoryInfo repositoryInfo,
             bool generatePackageOnBuild)
         {
+            var isLibrary = assemblyInfo.AssemblyName.EndsWith(".Test");
+            
             var dict = new Dictionary<string, string?>
                        {
-                           ["TargetFramework"] = assemblyInfo.ProjectType == EnProjectType.Library
-                                                     ? "netstandard2.0;net472"
-                                                     : "netcoreapp3.0;net472",
+                           ["TargetFramework"] = isLibrary
+                                                     ? "netcoreapp3.0"
+                                                     : "netstandard2.0",
                            ["LangVersion"] = "latest",
                            // project identity
                            ["AssemblyName"] = assemblyInfo.ToString(),
@@ -35,8 +36,7 @@ namespace SpaceEngineers.ProjectGenerator
                            ["Company"] = AssemblyInfo.SpaceEngineers,
                            ["Authors"] = AssemblyInfo.SpaceEngineers,
                            ["RepositoryUrl"] = repositoryInfo.ToString(),
-                           ["RepositoryType"] = repositoryInfo.RepositoryType.ToString("G")
-                                                              .ToLowerInvariant(),
+                           ["RepositoryType"] = repositoryInfo.RepositoryType.ToLowerInvariant(),
                            // analysis
                            ["RunAnalyzersDuringBuild"] = "true",
                            ["RunAnalyzersDuringLiveAnalysis"] = "true",
@@ -51,7 +51,7 @@ namespace SpaceEngineers.ProjectGenerator
                            ["TieredCompilation"] = "true",
                        };
 
-            if (assemblyInfo.ProjectType == EnProjectType.Library)
+            if (isLibrary)
             {
                 dict.Add("Library", null);
             }

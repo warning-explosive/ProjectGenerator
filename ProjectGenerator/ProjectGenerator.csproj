@@ -33,7 +33,7 @@
 
   <ItemGroup>
     <Compile Update="ProjectSettingsProviderImpl.cs">
-      <DependentUpon>ISettingsProvider.cs</DependentUpon>
+      <DependentUpon>IProjectSettingsProvider.cs</DependentUpon>
     </Compile>
     <Compile Update="UnsafeGeneratorCliArgs.cs">
       <DependentUpon>GeneratorCliArgs.cs</DependentUpon>

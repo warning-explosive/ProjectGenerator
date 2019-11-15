@@ -1,6 +1,7 @@
 namespace SpaceEngineers.ProjectGenerator
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
@@ -15,9 +16,13 @@ namespace SpaceEngineers.ProjectGenerator
     {
         public void Process(MasterInfo masterInfo, ProjectSettings projectSettings)
         {
+            XDocument? backup = null;
+            XDocument? document = null;
+            
             try
             {
-                var document = ReadDocument(masterInfo.ProjectInfo.CsprojPath);
+                backup = ReadDocument(masterInfo.ProjectInfo.CsprojPath);
+                document = ReadDocument(masterInfo.ProjectInfo.CsprojPath);
 
                 ClearFile(masterInfo.ProjectInfo.CsprojPath);
 
@@ -29,11 +34,20 @@ namespace SpaceEngineers.ProjectGenerator
             }
             catch (Exception ex)
             {
+                document = null;
+                
                 Console.WriteLine("Something goes wrong");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
 
                 throw;
+            }
+            finally
+            {
+                if (backup != null && document == null)
+                {
+                    WriteDocumentToFile(masterInfo.ProjectInfo.CsprojPath, backup);
+                }
             }
         }
 
@@ -56,17 +70,21 @@ namespace SpaceEngineers.ProjectGenerator
 
         private static void ClearDocument(XDocument document)
         {
-            Debug.Assert(document.Root != null
-                         && document.Root.Name == "Project");
+            if (document.Root == null)
+            {
+                throw new ArgumentNullException(nameof(document.Root) + " node is not exist");
+            }
+            
+            Debug.Assert(document.Root.Name == Constants.Project, nameof(document.Root) + " node is not <Project/> node");
 
             var query = document.Root
-                               ?.Nodes()
+                                .Nodes()
                                 .OfType<XElement>()
-                                .Where(z => z.Name == "PropertyGroup");
+                                .Where(z => z.Name == Constants.PropertyGroup);
 
             while (query.Any())
             {
-                query?.Each(z =>
+                query.Each(z =>
                            {
                                z.RemoveNodes();
                                z.RemoveAll();
@@ -77,7 +95,7 @@ namespace SpaceEngineers.ProjectGenerator
 
         private void FillDocument(XDocument document, ProjectSettings projectSettings)
         {
-            throw new NotImplementedException();
+            document.Root.AddFirst(projectSettings.ProjectWideGroup, projectSettings.DebugGroup, projectSettings.ReleaseGroup);
         }
 
         private static void WriteDocumentToFile(string csprojPath, XDocument document)

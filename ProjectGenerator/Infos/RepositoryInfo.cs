@@ -1,19 +1,18 @@
 namespace SpaceEngineers.ProjectGenerator.Infos
 {
     using System;
-    using Enumerations;
 
     public class RepositoryInfo
     {
         internal static Uri RepositoryUrl = new Uri("https://github.com/warning-explosive");
 
-        public RepositoryInfo(EnRepositoryType repositoryType, string solutionName)
+        public RepositoryInfo(string repositoryType, string solutionName)
         {
             RepositoryType = repositoryType;
             SolutionName = solutionName;
         }
 
-        internal EnRepositoryType RepositoryType { get; }
+        internal string RepositoryType { get; }
 
         private string SolutionName { get; }
 

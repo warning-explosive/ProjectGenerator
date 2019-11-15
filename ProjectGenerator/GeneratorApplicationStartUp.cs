@@ -11,7 +11,6 @@ namespace SpaceEngineers.ProjectGenerator
     using Core.CompositionRoot.Enumerations;
     using Core.Extensions;
     using Core.Utilities.CliArgumentsParser;
-    using Enumerations;
     using ExecutableApplication.Abstractions;
     using Infos;
 
@@ -52,19 +51,19 @@ namespace SpaceEngineers.ProjectGenerator
             var solutionName = GetSolutionName(generatorCliArgs);
             Console.WriteLine(solutionName.ShowVariable(nameof(solutionName)));
 
-            var repositoryInfo = new RepositoryInfo(EnRepositoryType.Git, solutionName);
+            var repositoryInfo = new RepositoryInfo(Constants.Git, solutionName);
 
             var projectInfos = GetProjects(solutionName, generatorCliArgs).ToArray();
             projectInfos.Each(p => Console.WriteLine(p.ProjectName.ShowVariable(nameof(p.ProjectName))));
 
             return projectInfos.Select(projectInfo => new MasterInfo(projectInfo,
-                                                                     new AssemblyInfo(projectInfo, EnProjectType.Library),
+                                                                     new AssemblyInfo(projectInfo),
                                                                      repositoryInfo));
         }
 
         private static string GetSolutionName(GeneratorCliArgs generatorCliArgs)
         {
-            var solutionFile = Directory.GetFiles(generatorCliArgs.SolutionFolder, "*.sln", SearchOption.TopDirectoryOnly)
+            var solutionFile = Directory.GetFiles(generatorCliArgs.SolutionFolder, Constants.SlnExtension, SearchOption.TopDirectoryOnly)
                                         .SingleOrDefault();
 
             Debug.Assert(solutionFile != null, $"Solution file is not found in {generatorCliArgs.SolutionFolder}");
@@ -76,7 +75,7 @@ namespace SpaceEngineers.ProjectGenerator
 
         private static IEnumerable<ProjectInfo> GetProjects(string solutionName, GeneratorCliArgs generatorCliArgs)
         {
-            var projectFilesPaths = Directory.GetFiles(generatorCliArgs.SolutionFolder, "*.csproj", SearchOption.AllDirectories);
+            var projectFilesPaths = Directory.GetFiles(generatorCliArgs.SolutionFolder, Constants.CsprojExtension, SearchOption.AllDirectories);
 
             Debug.Assert(projectFilesPaths.Any(), $"Not found any project in {generatorCliArgs.SolutionFolder} or its subdirectories");
 
