@@ -5,6 +5,6 @@ namespace SpaceEngineers.ProjectGenerator
 
     public interface IProjectSettingsProvider : IResolvable
     {
-        ProjectSettings GenerateProjectSettings(MasterInfo masterInfo, GeneratorCliArgs generatorCliArgs);
+        ProjectSettings GenerateProjectSettings(MasterInfo masterInfo);
     }
 }

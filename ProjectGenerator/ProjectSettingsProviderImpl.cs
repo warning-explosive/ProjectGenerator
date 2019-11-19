@@ -8,19 +8,17 @@ namespace SpaceEngineers.ProjectGenerator
     [Lifestyle(EnLifestyle.Singleton)]
     internal class ProjectSettingsProviderImpl : IProjectSettingsProvider
     {
-        public ProjectSettings GenerateProjectSettings(MasterInfo masterInfo, GeneratorCliArgs generatorCliArgs)
+        public ProjectSettings GenerateProjectSettings(MasterInfo masterInfo)
         {
             return new ProjectSettings(ProjectWideSettings(masterInfo.AssemblyInfo,
-                                                           masterInfo.RepositoryInfo,
-                                                           generatorCliArgs.GeneratePackageOnBuild),
+                                                           masterInfo.RepositoryInfo),
                                        DebugSettings(),
                                        ReleaseSettings());
         }
 
         private IDictionary<string, string?> ProjectWideSettings(
             AssemblyInfo assemblyInfo,
-            RepositoryInfo repositoryInfo,
-            bool generatePackageOnBuild)
+            RepositoryInfo repositoryInfo)
         {
             var isLibrary = assemblyInfo.AssemblyName.EndsWith(".Test");
             
@@ -42,7 +40,10 @@ namespace SpaceEngineers.ProjectGenerator
                            ["RunAnalyzersDuringLiveAnalysis"] = "true",
                            ["RunAnalyzers"] = "true",
                            // build
-                           ["GeneratePackageOnBuild"] = $"{generatePackageOnBuild}",
+                           ["GeneratePackageOnBuild"] = "false",
+                           ["IsPackable"] = isLibrary
+                                                ? "false"
+                                                : "true",
                            ["TreatWarningsAsErrors"] = "true",
                            ["AutoGenerateBindingRedirects"] = "true",
                            // nullable-reference

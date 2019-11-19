@@ -7,16 +7,13 @@ namespace SpaceEngineers.ProjectGenerator
 
     public class GeneratorCliArgs
     {
-        private GeneratorCliArgs(string solutionFolder, bool generatePackageOnBuild)
+        private GeneratorCliArgs(string solutionFolder)
         {
             SolutionFolder = solutionFolder;
-            GeneratePackageOnBuild = generatePackageOnBuild;
         }
 
         internal string SolutionFolder { get; }
 
-        internal bool GeneratePackageOnBuild { get; }
-        
         internal static GeneratorCliArgs FromUnsafe(UnsafeGeneratorCliArgs unsafeArgs)
         {
             unsafeArgs.ToPropertyDictionary()
@@ -25,7 +22,7 @@ namespace SpaceEngineers.ProjectGenerator
 
             Debug.Assert(unsafeArgs.SolutionFolder != null);
             
-            return new GeneratorCliArgs(unsafeArgs.SolutionFolder ?? string.Empty, unsafeArgs.GeneratePackageOnBuild);
+            return new GeneratorCliArgs(unsafeArgs.SolutionFolder ?? string.Empty);
         }
     }
 }

@@ -41,7 +41,7 @@ namespace SpaceEngineers.ProjectGenerator
             masterInfos.Select(masterInfo => new
                                              {
                                                  MasterInfo = masterInfo, 
-                                                 ProjectSettings = _projectSettingsProvider.GenerateProjectSettings(masterInfo, generatorCliArgs)
+                                                 ProjectSettings = _projectSettingsProvider.GenerateProjectSettings(masterInfo)
                                              })
                        .Each(pair => _projectProcessor.Process(pair.MasterInfo, pair.ProjectSettings));
         }
