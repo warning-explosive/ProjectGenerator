@@ -21,7 +21,7 @@ namespace SpaceEngineers.ProjectGenerator
             RepositoryInfo repositoryInfo)
         {
             var isLibrary = assemblyInfo.AssemblyName.EndsWith(".Test");
-            
+
             var dict = new Dictionary<string, string?>
                        {
                            ["TargetFramework"] = isLibrary
@@ -47,7 +47,9 @@ namespace SpaceEngineers.ProjectGenerator
                                                 : "true",
                            ["TreatWarningsAsErrors"] = "true",
                            ["AutoGenerateBindingRedirects"] = "true",
-                           ["GenerateDocumentationFile"] = "true",
+                           ["GenerateDocumentationFile"] = isLibrary
+                                                               ? "false"
+                                                               : "true",
                            // nullable-reference
                            ["Nullable"] = "enable",
                            // run-time
