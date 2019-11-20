@@ -40,6 +40,7 @@ namespace SpaceEngineers.ProjectGenerator
                            ["RunAnalyzersDuringLiveAnalysis"] = "true",
                            ["RunAnalyzers"] = "true",
                            // build
+                           ["GenerateAssemblyInfo"] = "false",
                            ["GeneratePackageOnBuild"] = "false",
                            ["IsPackable"] = isLibrary
                                                 ? "false"
