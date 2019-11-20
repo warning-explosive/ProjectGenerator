@@ -47,6 +47,7 @@ namespace SpaceEngineers.ProjectGenerator
                                                 : "true",
                            ["TreatWarningsAsErrors"] = "true",
                            ["AutoGenerateBindingRedirects"] = "true",
+                           ["GenerateDocumentationFile"] = "true",
                            // nullable-reference
                            ["Nullable"] = "enable",
                            // run-time
