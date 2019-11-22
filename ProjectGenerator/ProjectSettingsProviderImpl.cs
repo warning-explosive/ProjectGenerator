@@ -24,17 +24,26 @@ namespace SpaceEngineers.ProjectGenerator
 
             var dict = new Dictionary<string, string?>
                        {
+                           // development
                            ["TargetFramework"] = isLibrary
                                                      ? "netcoreapp3.0"
                                                      : "netstandard2.0",
                            ["LangVersion"] = "latest",
+                           ["Nullable"] = "enable",
                            // project identity
                            ["AssemblyName"] = assemblyInfo.ToString(),
                            ["RootNamespace"] = assemblyInfo.ToString(),
-                           ["Company"] = AssemblyInfo.SpaceEngineers,
+                           // nuget
+                           ["IsPackable"] = isLibrary
+                                                ? "false"
+                                                : "true",
+                           ["Title"] = assemblyInfo.ToString(),
                            ["Authors"] = AssemblyInfo.SpaceEngineers,
-                           ["RepositoryUrl"] = repositoryInfo.ToString(),
+                           ["Company"] = AssemblyInfo.SpaceEngineers,
+                           ["PackageDescription"] = assemblyInfo.ToString(),
                            ["RepositoryType"] = repositoryInfo.RepositoryType.ToLowerInvariant(),
+                           ["RepositoryUrl"] = repositoryInfo.ToString(),
+                           ["Copyright"] = "Copyright (c) 2019",
                            // analysis
                            ["RunAnalyzersDuringBuild"] = "true",
                            ["RunAnalyzersDuringLiveAnalysis"] = "true",
@@ -42,16 +51,11 @@ namespace SpaceEngineers.ProjectGenerator
                            // build
                            ["GenerateAssemblyInfo"] = "false",
                            ["GeneratePackageOnBuild"] = "false",
-                           ["IsPackable"] = isLibrary
-                                                ? "false"
-                                                : "true",
                            ["TreatWarningsAsErrors"] = "true",
                            ["AutoGenerateBindingRedirects"] = "true",
                            ["GenerateDocumentationFile"] = isLibrary
                                                                ? "false"
                                                                : "true",
-                           // nullable-reference
-                           ["Nullable"] = "enable",
                            // run-time
                            ["TieredCompilation"] = "true",
                        };
