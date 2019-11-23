@@ -3,22 +3,19 @@ namespace SpaceEngineers.ProjectGenerator
     using System.Collections.Generic;
     using Core.CompositionRoot.Attributes;
     using Core.CompositionRoot.Enumerations;
-    using Infos;
 
     [Lifestyle(EnLifestyle.Singleton)]
-    internal class ProjectSettingsProviderImpl : IProjectSettingsProvider
+    internal class CsprojSettingsProviderImpl : ICsprojSettingsProvider
     {
-        public ProjectSettings GenerateProjectSettings(MasterInfo masterInfo)
+        public CsprojSettings GenerateProjectSettings(MasterInfo masterInfo)
         {
-            return new ProjectSettings(ProjectWideSettings(masterInfo.AssemblyInfo,
-                                                           masterInfo.RepositoryInfo),
-                                       DebugSettings(),
-                                       ReleaseSettings());
+            return new CsprojSettings(ProjectWideSettings(masterInfo.AssemblyInfo,
+                                                          masterInfo.RepositoryInfo),
+                                      DebugSettings(),
+                                      ReleaseSettings());
         }
 
-        private IDictionary<string, string?> ProjectWideSettings(
-            AssemblyInfo assemblyInfo,
-            RepositoryInfo repositoryInfo)
+        private IDictionary<string, string?> ProjectWideSettings(AssemblyInfo assemblyInfo, RepositoryInfo repositoryInfo)
         {
             var isLibrary = assemblyInfo.AssemblyName.EndsWith(".Test");
 

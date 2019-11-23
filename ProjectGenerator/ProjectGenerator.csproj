@@ -1,38 +1,40 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-	<TargetFramework>netstandard2.0</TargetFramework>
-	<LangVersion>latest</LangVersion>
-	<Nullable>enable</Nullable>
-	<AssemblyName>SpaceEngineers.ProjectGenerator</AssemblyName>
-	<RootNamespace>SpaceEngineers.ProjectGenerator</RootNamespace>
-	<Version>1.0.0-alpha</Version>
-	<Description>Netcore project generator</Description>
-	<PackageTags>SpaceEngineers ProjectGenerator</PackageTags>
-	<Company>SpaceEngineers</Company>
-	<Authors>SpaceEngineers</Authors>
-	<RepositoryUrl>https://github.com/warning-explosive/ProjectGenerator</RepositoryUrl>
-	<RepositoryType>git</RepositoryType>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <AssemblyName>SpaceEngineers.ProjectGenerator.ProjectGenerator</AssemblyName>
+    <RootNamespace>SpaceEngineers.ProjectGenerator.ProjectGenerator</RootNamespace>
+    <IsPackable>true</IsPackable>
+    <Title>SpaceEngineers.ProjectGenerator.ProjectGenerator</Title>
+    <Authors>SpaceEngineers</Authors>
+    <Company>SpaceEngineers</Company>
+    <PackageDescription>SpaceEngineers.ProjectGenerator.ProjectGenerator</PackageDescription>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/warning-explosive/ProjectGenerator</RepositoryUrl>
+    <Copyright>Copyright (c) 2019</Copyright>
+    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+    <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+    <RunAnalyzers>true</RunAnalyzers>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TieredCompilation>true</TieredCompilation>
   </PropertyGroup>
-	
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
-	
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-	  <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-  
   <ItemGroup>
-    <PackageReference Include="SpaceEngineers.Core.CompositionRoot" Version="1.0.0-alpha" />
-    <PackageReference Include="SpaceEngineers.Core.Extensions" Version="1.0.0-alpha" />
-    <PackageReference Include="SpaceEngineers.Core.Utilities.CliArgumentsParser" Version="1.0.0-alpha" />
-    <PackageReference Include="SpaceEngineers.ExecutableApplication.Abstractions" Version="1.0.0-alpha" />
+    <PackageReference Include="SpaceEngineers.Core.CliArgumentsParser" Version="1.0.0" />
+    <PackageReference Include="SpaceEngineers.Core.CompositionRoot" Version="1.0.0" />
+    <PackageReference Include="SpaceEngineers.Core.Extensions" Version="1.0.0" />
+    <PackageReference Include="SpaceEngineers.ExecutableApplication.Abstractions" Version="1.0.0-alpha.20" />
   </ItemGroup>
-
   <ItemGroup>
-    <Compile Update="ProjectSettingsProviderImpl.cs">
+    <Compile Update="CsprojSettingsProviderImpl.cs">
       <DependentUpon>IProjectSettingsProvider.cs</DependentUpon>
     </Compile>
     <Compile Update="UnsafeGeneratorCliArgs.cs">
@@ -41,9 +43,26 @@
     <Compile Update="CliArgsExtensions.cs">
       <DependentUpon>GeneratorCliArgs.cs</DependentUpon>
     </Compile>
-    <Compile Update="ProjectProcessorImpl.cs">
-      <DependentUpon>IProjectProcessor.cs</DependentUpon>
+    <Compile Update="Infos\AssemblyInfo.cs">
+      <DependentUpon>MasterInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Infos\RepositoryInfo.cs">
+      <DependentUpon>MasterInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Infos\ProjectInfo.cs">
+      <DependentUpon>MasterInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="CsprojGenerator.cs">
+      <DependentUpon>ISettingsGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Update="MasterInfoProviderImpl.cs">
+      <DependentUpon>IMasterInfoProvider.cs</DependentUpon>
+    </Compile>
+    <Compile Update="CsprojSettings.cs">
+      <DependentUpon>ICsprojSettingsProvider.cs</DependentUpon>
+    </Compile>
+    <Compile Update="ICsprojSettingsProvider.cs">
+      <DependentUpon>CsprojGenerator.cs</DependentUpon>
     </Compile>
   </ItemGroup>
-
 </Project>

@@ -1,7 +1,6 @@
 namespace SpaceEngineers.ProjectGenerator
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
@@ -9,12 +8,25 @@ namespace SpaceEngineers.ProjectGenerator
     using Core.CompositionRoot.Attributes;
     using Core.CompositionRoot.Enumerations;
     using Core.Extensions;
-    using Infos;
 
     [Lifestyle(EnLifestyle.Singleton)]
-    public class ProjectProcessorImpl : IProjectProcessor
+    internal class CsprojGenerator : ISettingsGenerator
     {
-        public void Process(MasterInfo masterInfo, ProjectSettings projectSettings)
+        private readonly ICsprojSettingsProvider _csprojSettingsProvider;
+        
+        public CsprojGenerator(ICsprojSettingsProvider csprojSettingsProvider)
+        {
+            _csprojSettingsProvider = csprojSettingsProvider;
+        }
+            
+        public void Generate(MasterInfo masterInfo)
+        {
+            var projectSettings = _csprojSettingsProvider.GenerateProjectSettings(masterInfo);
+            
+            GenerateInternal(masterInfo, projectSettings);
+        }
+
+        private void GenerateInternal(MasterInfo masterInfo, CsprojSettings csprojSettings)
         {
             XDocument? backup = null;
             XDocument? document = null;
@@ -28,7 +40,7 @@ namespace SpaceEngineers.ProjectGenerator
 
                 ClearDocument(document);
 
-                FillDocument(document, projectSettings);
+                FillDocument(document, csprojSettings);
 
                 WriteDocumentToFile(masterInfo.ProjectInfo.CsprojPath, document);
             }
@@ -93,9 +105,9 @@ namespace SpaceEngineers.ProjectGenerator
             }
         }
 
-        private void FillDocument(XDocument document, ProjectSettings projectSettings)
+        private void FillDocument(XDocument document, CsprojSettings csprojSettings)
         {
-            document.Root.AddFirst(projectSettings.ProjectWideGroup, projectSettings.DebugGroup, projectSettings.ReleaseGroup);
+            document.Root.AddFirst(csprojSettings.ProjectWideGroup, csprojSettings.DebugGroup, csprojSettings.ReleaseGroup);
         }
 
         private static void WriteDocumentToFile(string csprojPath, XDocument document)

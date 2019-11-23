@@ -4,13 +4,13 @@ namespace SpaceEngineers.ProjectGenerator
     using System.Linq;
     using System.Xml.Linq;
 
-    public class ProjectSettings
+    public class CsprojSettings
     {
         private const string Mode = "'$(Configuration)|$(Platform)'=='{0}|AnyCPU'";
         
-        public ProjectSettings(IDictionary<string, string?> projectWideSettings,
-                               IDictionary<string, string?> debugSettings,
-                               IDictionary<string, string?> releaseSettings)
+        public CsprojSettings(IDictionary<string, string?> projectWideSettings,
+                              IDictionary<string, string?> debugSettings,
+                              IDictionary<string, string?> releaseSettings)
         {
             ProjectWideGroup = CreatePropertyGroup(projectWideSettings);
             

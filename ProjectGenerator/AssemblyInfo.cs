@@ -1,4 +1,4 @@
-namespace SpaceEngineers.ProjectGenerator.Infos
+namespace SpaceEngineers.ProjectGenerator
 {
     public class AssemblyInfo
     {
