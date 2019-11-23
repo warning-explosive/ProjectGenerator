@@ -3,7 +3,9 @@ namespace SpaceEngineers.ProjectGenerator
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
     using System.Reflection;
+    using System.Threading.Tasks;
     using Core.CliArgumentsParser;
     using Core.CompositionRoot;
     using Core.CompositionRoot.Attributes;
@@ -36,8 +38,9 @@ namespace SpaceEngineers.ProjectGenerator
             foreach (var masterInfo in _masterInfoProvider.GetMasterInfos(generatorCliArgs))
             {
                 Console.WriteLine($"Generate settings for: {masterInfo.ProjectInfo.ProjectName}");
-                
-                _generators.Each(g => g.Generate(masterInfo));
+
+                Task.WhenAll(_generators.Select(g => g.Generate(masterInfo)))
+                    .Wait();
             }
         }
     }

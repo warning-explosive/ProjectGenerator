@@ -1,9 +1,10 @@
 namespace SpaceEngineers.ProjectGenerator
 {
+    using System.Threading.Tasks;
     using Core.CompositionRoot.Abstractions;
 
     internal interface ISettingsGenerator : ICollectionResolvable
     {
-        void Generate(MasterInformation masterInformation);
+        Task Generate(MasterInformation masterInformation);
     }
 }

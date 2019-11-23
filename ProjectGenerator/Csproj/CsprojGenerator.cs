@@ -4,6 +4,7 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
+    using System.Threading.Tasks;
     using System.Xml.Linq;
     using Core.CompositionRoot.Attributes;
     using Core.CompositionRoot.Enumerations;
@@ -19,15 +20,17 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
             _csprojSettingsProvider = csprojSettingsProvider;
         }
             
-        public void Generate(MasterInformation masterInformation)
+        public async Task Generate(MasterInformation masterInformation)
         {
             var projectSettings = _csprojSettingsProvider.GenerateProjectSettings(masterInformation);
             
-            GenerateInternal(masterInformation, projectSettings);
+            await Task.Factory.StartNew(() => GenerateInternal(masterInformation, projectSettings));
         }
 
         private void GenerateInternal(MasterInformation masterInformation, CsprojSettings csprojSettings)
         {
+            Console.WriteLine($"Generate {masterInformation.ProjectInfo.ProjectName}.csproj");
+            
             XDocument? backup = null;
             XDocument? document = null;
             
