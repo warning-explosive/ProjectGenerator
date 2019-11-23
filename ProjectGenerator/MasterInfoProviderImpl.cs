@@ -10,7 +10,7 @@ namespace SpaceEngineers.ProjectGenerator
     using Core.Extensions;
 
     [Lifestyle(EnLifestyle.Singleton)]
-    public class MasterInfoProviderImpl : IMasterInfoProvider
+    internal class MasterInfoProviderImpl : IMasterInfoProvider
     {
         public IEnumerable<MasterInfo> GetMasterInfos(GeneratorCliArgs generatorCliArgs)
         {

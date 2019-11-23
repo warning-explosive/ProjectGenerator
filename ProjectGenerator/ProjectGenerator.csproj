@@ -4,8 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
-    <AssemblyName>SpaceEngineers.ProjectGenerator.ProjectGenerator</AssemblyName>
-    <RootNamespace>SpaceEngineers.ProjectGenerator.ProjectGenerator</RootNamespace>
+    <AssemblyName>SpaceEngineers.ProjectGenerator</AssemblyName>
+    <RootNamespace>SpaceEngineers.ProjectGenerator</RootNamespace>
     <IsPackable>true</IsPackable>
     <Title>SpaceEngineers.ProjectGenerator.ProjectGenerator</Title>
     <Authors>SpaceEngineers</Authors>
@@ -34,9 +34,6 @@
     <PackageReference Include="SpaceEngineers.ExecutableApplication.Abstractions" Version="1.0.0-alpha.20" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="CsprojSettingsProviderImpl.cs">
-      <DependentUpon>IProjectSettingsProvider.cs</DependentUpon>
-    </Compile>
     <Compile Update="UnsafeGeneratorCliArgs.cs">
       <DependentUpon>GeneratorCliArgs.cs</DependentUpon>
     </Compile>
@@ -52,17 +49,20 @@
     <Compile Update="Infos\ProjectInfo.cs">
       <DependentUpon>MasterInfo.cs</DependentUpon>
     </Compile>
-    <Compile Update="CsprojGenerator.cs">
-      <DependentUpon>ISettingsGenerator.cs</DependentUpon>
-    </Compile>
     <Compile Update="MasterInfoProviderImpl.cs">
       <DependentUpon>IMasterInfoProvider.cs</DependentUpon>
     </Compile>
-    <Compile Update="CsprojSettings.cs">
-      <DependentUpon>ICsprojSettingsProvider.cs</DependentUpon>
+    <Compile Update="AssemblyInfo.cs">
+      <DependentUpon>MasterInfo.cs</DependentUpon>
     </Compile>
-    <Compile Update="ICsprojSettingsProvider.cs">
-      <DependentUpon>CsprojGenerator.cs</DependentUpon>
+    <Compile Update="ProjectInfo.cs">
+      <DependentUpon>MasterInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="RepositoryInfo.cs">
+      <DependentUpon>MasterInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Csproj\CsprojSettingsProviderImpl.cs">
+      <DependentUpon>ICsprojSettingsProvider.cs</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

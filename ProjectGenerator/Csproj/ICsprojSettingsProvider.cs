@@ -1,8 +1,8 @@
-namespace SpaceEngineers.ProjectGenerator
+namespace SpaceEngineers.ProjectGenerator.Csproj
 {
     using Core.CompositionRoot.Abstractions;
 
-    public interface ICsprojSettingsProvider : IResolvable
+    internal interface ICsprojSettingsProvider : IResolvable
     {
         CsprojSettings GenerateProjectSettings(MasterInfo masterInfo);
     }

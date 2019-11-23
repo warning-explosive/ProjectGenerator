@@ -5,7 +5,7 @@ namespace SpaceEngineers.ProjectGenerator
     using System.Linq;
     using Core.Extensions;
 
-    public class GeneratorCliArgs
+    internal class GeneratorCliArgs
     {
         private GeneratorCliArgs(string solutionFolder)
         {

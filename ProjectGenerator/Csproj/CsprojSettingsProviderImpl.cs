@@ -1,4 +1,4 @@
-namespace SpaceEngineers.ProjectGenerator
+namespace SpaceEngineers.ProjectGenerator.Csproj
 {
     using System.Collections.Generic;
     using Core.CompositionRoot.Attributes;

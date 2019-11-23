@@ -1,16 +1,16 @@
-namespace SpaceEngineers.ProjectGenerator
+namespace SpaceEngineers.ProjectGenerator.Csproj
 {
     using System.Collections.Generic;
     using System.Linq;
     using System.Xml.Linq;
 
-    public class CsprojSettings
+    internal class CsprojSettings
     {
         private const string Mode = "'$(Configuration)|$(Platform)'=='{0}|AnyCPU'";
         
-        public CsprojSettings(IDictionary<string, string?> projectWideSettings,
-                              IDictionary<string, string?> debugSettings,
-                              IDictionary<string, string?> releaseSettings)
+        internal CsprojSettings(IDictionary<string, string?> projectWideSettings,
+                                IDictionary<string, string?> debugSettings,
+                                IDictionary<string, string?> releaseSettings)
         {
             ProjectWideGroup = CreatePropertyGroup(projectWideSettings);
             
@@ -21,11 +21,11 @@ namespace SpaceEngineers.ProjectGenerator
             ReleaseGroup?.Add(new XAttribute(Constants.Condition, string.Format(Mode, Constants.Release)));
         }
 
-        public XElement? ProjectWideGroup { get; }
+        internal XElement? ProjectWideGroup { get; }
         
-        public XElement? DebugGroup { get; }
+        internal XElement? DebugGroup { get; }
         
-        public XElement? ReleaseGroup { get; }
+        internal XElement? ReleaseGroup { get; }
 
         private XElement? CreatePropertyGroup(IDictionary<string, string?> values)
         {

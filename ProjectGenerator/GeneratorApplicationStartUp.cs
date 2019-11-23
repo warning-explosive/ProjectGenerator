@@ -12,7 +12,7 @@ namespace SpaceEngineers.ProjectGenerator
     using ExecutableApplication.Abstractions;
 
     [Lifestyle(EnLifestyle.Singleton)]
-    public class GeneratorApplicationStartUp : IApplicationStartup
+    internal class GeneratorApplicationStartUp : IApplicationStartup
     {
         private readonly IMasterInfoProvider _masterInfoProvider;
 

@@ -1,18 +1,18 @@
 namespace SpaceEngineers.ProjectGenerator
 {
-    public class MasterInfo
+    internal class MasterInfo
     {
-        public MasterInfo(ProjectInfo projectInfo, AssemblyInfo assemblyInfo, RepositoryInfo repositoryInfo)
+        internal MasterInfo(ProjectInfo projectInfo, AssemblyInfo assemblyInfo, RepositoryInfo repositoryInfo)
         {
             ProjectInfo = projectInfo;
             AssemblyInfo = assemblyInfo;
             RepositoryInfo = repositoryInfo;
         }
 
-        public ProjectInfo ProjectInfo { get; }
+        internal ProjectInfo ProjectInfo { get; }
 
-        public AssemblyInfo AssemblyInfo { get; }
+        internal AssemblyInfo AssemblyInfo { get; }
         
-        public RepositoryInfo RepositoryInfo { get; }
+        internal RepositoryInfo RepositoryInfo { get; }
     }
 }
