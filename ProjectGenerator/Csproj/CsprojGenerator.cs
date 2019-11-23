@@ -33,16 +33,16 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
             
             try
             {
-                backup = ReadDocument(masterInformation.ProjectInformation.CsprojPath);
-                document = ReadDocument(masterInformation.ProjectInformation.CsprojPath);
+                backup = ReadDocument(masterInformation.ProjectInfo.CsprojPath);
+                document = ReadDocument(masterInformation.ProjectInfo.CsprojPath);
 
-                ClearFile(masterInformation.ProjectInformation.CsprojPath);
+                ClearFile(masterInformation.ProjectInfo.CsprojPath);
 
                 ClearDocument(document);
 
                 FillDocument(document, csprojSettings);
 
-                WriteDocumentToFile(masterInformation.ProjectInformation.CsprojPath, document);
+                WriteDocumentToFile(masterInformation.ProjectInfo.CsprojPath, document);
             }
             catch (Exception ex)
             {
@@ -58,7 +58,7 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
             {
                 if (backup != null && document == null)
                 {
-                    WriteDocumentToFile(masterInformation.ProjectInformation.CsprojPath, backup);
+                    WriteDocumentToFile(masterInformation.ProjectInfo.CsprojPath, backup);
                 }
             }
         }

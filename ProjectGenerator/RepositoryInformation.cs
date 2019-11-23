@@ -4,21 +4,21 @@ namespace SpaceEngineers.ProjectGenerator
 
     internal class RepositoryInformation
     {
-        internal static Uri RepositoryUrl = new Uri("https://github.com/warning-explosive");
+        internal static readonly Uri RepositoryUrl = new Uri("https://github.com/warning-explosive");
+
+        private readonly string _solutionName;
 
         internal RepositoryInformation(string repositoryType, string solutionName)
         {
             RepositoryType = repositoryType;
-            SolutionName = solutionName;
+            _solutionName = solutionName;
         }
 
         internal string RepositoryType { get; }
 
-        private string SolutionName { get; }
-
         public override string ToString()
         {
-            return $"{RepositoryUrl}/{SolutionName}";
+            return $"{RepositoryUrl}/{_solutionName}";
         }
     }
 }

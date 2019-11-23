@@ -4,19 +4,19 @@ namespace SpaceEngineers.ProjectGenerator
     {
         internal const string SpaceEngineers = nameof(SpaceEngineers);
 
+        private readonly string _projectName;
+
+        private readonly string _solutionName;
+
         internal AssemblyInformation(ProjectInformation projectInformation)
         {
-            AssemblyName = projectInformation.ProjectName;
-            SolutionName = projectInformation.SolutionName;
+            _projectName = projectInformation.ProjectName;
+            _solutionName = projectInformation.SolutionName;
         }
-
-        internal string AssemblyName { get; }
-
-        private string SolutionName { get; }
 
         public override string ToString()
         {
-            return $"{SpaceEngineers}.{SolutionName}.{AssemblyName}";
+            return $"{SpaceEngineers}.{_solutionName}.{_projectName}";
         }
     }
 }

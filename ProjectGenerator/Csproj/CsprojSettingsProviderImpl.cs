@@ -9,15 +9,14 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
     {
         public CsprojSettings GenerateProjectSettings(MasterInformation masterInformation)
         {
-            return new CsprojSettings(ProjectWideSettings(masterInformation.AssemblyInformation, masterInformation.RepositoryInformation),
+            return new CsprojSettings(ProjectWideSettings(masterInformation),
                                       DebugSettings(),
                                       ReleaseSettings());
         }
 
-        private IDictionary<string, string?> ProjectWideSettings(AssemblyInformation assemblyInformation,
-                                                                 RepositoryInformation repositoryInformation)
+        private IDictionary<string, string?> ProjectWideSettings(MasterInformation masterInfo)
         {
-            var isLibrary = assemblyInformation.AssemblyName.EndsWith(".Test");
+            var isLibrary = masterInfo.ProjectInfo.ProjectName.EndsWith(".Test");
 
             var dict = new Dictionary<string, string?>
                        {
@@ -28,18 +27,18 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
                            ["LangVersion"] = "latest",
                            ["Nullable"] = "enable",
                            // project identity
-                           ["AssemblyName"] = assemblyInformation.ToString(),
-                           ["RootNamespace"] = assemblyInformation.ToString(),
+                           ["AssemblyName"] = masterInfo.AssemblyInfo.ToString(),
+                           ["RootNamespace"] = masterInfo.AssemblyInfo.ToString(),
                            // nuget
                            ["IsPackable"] = isLibrary
                                                 ? "false"
                                                 : "true",
-                           ["Title"] = assemblyInformation.ToString(),
+                           ["Title"] = masterInfo.AssemblyInfo.ToString(),
                            ["Authors"] = AssemblyInformation.SpaceEngineers,
                            ["Company"] = AssemblyInformation.SpaceEngineers,
-                           ["PackageDescription"] = assemblyInformation.ToString(),
-                           ["RepositoryType"] = repositoryInformation.RepositoryType.ToLowerInvariant(),
-                           ["RepositoryUrl"] = repositoryInformation.ToString(),
+                           ["PackageDescription"] = masterInfo.AssemblyInfo.ToString(),
+                           ["RepositoryType"] = masterInfo.RepositoryInfo.RepositoryType.ToLowerInvariant(),
+                           ["RepositoryUrl"] = masterInfo.RepositoryInfo.ToString(),
                            ["Copyright"] = "Copyright (c) 2019",
                            // analysis
                            ["RunAnalyzersDuringBuild"] = "true",
