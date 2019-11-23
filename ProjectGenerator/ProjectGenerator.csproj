@@ -31,7 +31,7 @@
     <PackageReference Include="SpaceEngineers.Core.CliArgumentsParser" Version="1.0.0" />
     <PackageReference Include="SpaceEngineers.Core.CompositionRoot" Version="1.0.0" />
     <PackageReference Include="SpaceEngineers.Core.Extensions" Version="1.0.0" />
-    <PackageReference Include="SpaceEngineers.ExecutableApplication.Abstractions" Version="1.0.0-alpha.20" />
+    <PackageReference Include="SpaceEngineers.ExecutableApplication.Abstractions" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="UnsafeGeneratorCliArgs.cs">
