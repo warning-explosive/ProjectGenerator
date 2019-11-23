@@ -1,13 +1,13 @@
 namespace SpaceEngineers.ProjectGenerator
 {
-    internal class AssemblyInfo
+    internal class AssemblyInformation
     {
         internal const string SpaceEngineers = nameof(SpaceEngineers);
 
-        internal AssemblyInfo(ProjectInfo projectInfo)
+        internal AssemblyInformation(ProjectInformation projectInformation)
         {
-            AssemblyName = projectInfo.ProjectName;
-            SolutionName = projectInfo.SolutionName;
+            AssemblyName = projectInformation.ProjectName;
+            SolutionName = projectInformation.SolutionName;
         }
 
         internal string AssemblyName { get; }

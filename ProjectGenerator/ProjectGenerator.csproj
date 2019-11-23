@@ -52,14 +52,14 @@
     <Compile Update="MasterInfoProviderImpl.cs">
       <DependentUpon>IMasterInfoProvider.cs</DependentUpon>
     </Compile>
-    <Compile Update="AssemblyInfo.cs">
-      <DependentUpon>MasterInfo.cs</DependentUpon>
+    <Compile Update="AssemblyInformation.cs">
+      <DependentUpon>MasterInformation.cs</DependentUpon>
     </Compile>
-    <Compile Update="ProjectInfo.cs">
-      <DependentUpon>MasterInfo.cs</DependentUpon>
+    <Compile Update="ProjectInformation.cs">
+      <DependentUpon>MasterInformation.cs</DependentUpon>
     </Compile>
-    <Compile Update="RepositoryInfo.cs">
-      <DependentUpon>MasterInfo.cs</DependentUpon>
+    <Compile Update="RepositoryInformation.cs">
+      <DependentUpon>MasterInformation.cs</DependentUpon>
     </Compile>
     <Compile Update="Csproj\CsprojSettingsProviderImpl.cs">
       <DependentUpon>ICsprojSettingsProvider.cs</DependentUpon>

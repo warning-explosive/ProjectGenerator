@@ -12,19 +12,19 @@ namespace SpaceEngineers.ProjectGenerator
     [Lifestyle(EnLifestyle.Singleton)]
     internal class MasterInfoProviderImpl : IMasterInfoProvider
     {
-        public IEnumerable<MasterInfo> GetMasterInfos(GeneratorCliArgs generatorCliArgs)
+        public IEnumerable<MasterInformation> GetMasterInfos(GeneratorCliArgs generatorCliArgs)
         {
             var solutionName = GetSolutionName(generatorCliArgs);
             Console.WriteLine(solutionName.ShowVariable(nameof(solutionName)));
 
-            var repositoryInfo = new RepositoryInfo(Constants.Git, solutionName);
+            var repositoryInfo = new RepositoryInformation(Constants.Git, solutionName);
 
             var projectInfos = GetProjects(solutionName, generatorCliArgs).ToArray();
             projectInfos.Each(p => Console.WriteLine(p.ProjectName.ShowVariable(nameof(p.ProjectName))));
 
-            return projectInfos.Select(projectInfo => new MasterInfo(projectInfo,
-                                                                     new AssemblyInfo(projectInfo),
-                                                                     repositoryInfo));
+            return projectInfos.Select(projectInfo => new MasterInformation(projectInfo,
+                                                                            new AssemblyInformation(projectInfo),
+                                                                            repositoryInfo));
         }
 
         private static string GetSolutionName(GeneratorCliArgs generatorCliArgs)
@@ -39,13 +39,13 @@ namespace SpaceEngineers.ProjectGenerator
             return solution;
         }
 
-        private static IEnumerable<ProjectInfo> GetProjects(string solutionName, GeneratorCliArgs generatorCliArgs)
+        private static IEnumerable<ProjectInformation> GetProjects(string solutionName, GeneratorCliArgs generatorCliArgs)
         {
             var projectFilesPaths = Directory.GetFiles(generatorCliArgs.SolutionFolder, Constants.CsprojExtension, SearchOption.AllDirectories);
 
             Debug.Assert(projectFilesPaths.Any(), $"Not found any project in {generatorCliArgs.SolutionFolder} or its subdirectories");
 
-            return projectFilesPaths.Select(csprojPath => new ProjectInfo(solutionName, Path.GetFileNameWithoutExtension(csprojPath), csprojPath));
+            return projectFilesPaths.Select(csprojPath => new ProjectInformation(solutionName, Path.GetFileNameWithoutExtension(csprojPath), csprojPath));
         }
         
     }

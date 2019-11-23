@@ -35,7 +35,7 @@ namespace SpaceEngineers.ProjectGenerator
 
             foreach (var masterInfo in _masterInfoProvider.GetMasterInfos(generatorCliArgs))
             {
-                Console.WriteLine($"Generate settings for: {masterInfo.AssemblyInfo.AssemblyName}");
+                Console.WriteLine($"Generate settings for: {masterInfo.AssemblyInformation.AssemblyName}");
                 
                 _generators.Each(g => g.Generate(masterInfo));
             }

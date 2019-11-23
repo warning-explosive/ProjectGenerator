@@ -7,17 +7,17 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
     [Lifestyle(EnLifestyle.Singleton)]
     internal class CsprojSettingsProviderImpl : ICsprojSettingsProvider
     {
-        public CsprojSettings GenerateProjectSettings(MasterInfo masterInfo)
+        public CsprojSettings GenerateProjectSettings(MasterInformation masterInformation)
         {
-            return new CsprojSettings(ProjectWideSettings(masterInfo.AssemblyInfo,
-                                                          masterInfo.RepositoryInfo),
+            return new CsprojSettings(ProjectWideSettings(masterInformation.AssemblyInformation, masterInformation.RepositoryInformation),
                                       DebugSettings(),
                                       ReleaseSettings());
         }
 
-        private IDictionary<string, string?> ProjectWideSettings(AssemblyInfo assemblyInfo, RepositoryInfo repositoryInfo)
+        private IDictionary<string, string?> ProjectWideSettings(AssemblyInformation assemblyInformation,
+                                                                 RepositoryInformation repositoryInformation)
         {
-            var isLibrary = assemblyInfo.AssemblyName.EndsWith(".Test");
+            var isLibrary = assemblyInformation.AssemblyName.EndsWith(".Test");
 
             var dict = new Dictionary<string, string?>
                        {
@@ -28,18 +28,18 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
                            ["LangVersion"] = "latest",
                            ["Nullable"] = "enable",
                            // project identity
-                           ["AssemblyName"] = assemblyInfo.ToString(),
-                           ["RootNamespace"] = assemblyInfo.ToString(),
+                           ["AssemblyName"] = assemblyInformation.ToString(),
+                           ["RootNamespace"] = assemblyInformation.ToString(),
                            // nuget
                            ["IsPackable"] = isLibrary
                                                 ? "false"
                                                 : "true",
-                           ["Title"] = assemblyInfo.ToString(),
-                           ["Authors"] = AssemblyInfo.SpaceEngineers,
-                           ["Company"] = AssemblyInfo.SpaceEngineers,
-                           ["PackageDescription"] = assemblyInfo.ToString(),
-                           ["RepositoryType"] = repositoryInfo.RepositoryType.ToLowerInvariant(),
-                           ["RepositoryUrl"] = repositoryInfo.ToString(),
+                           ["Title"] = assemblyInformation.ToString(),
+                           ["Authors"] = AssemblyInformation.SpaceEngineers,
+                           ["Company"] = AssemblyInformation.SpaceEngineers,
+                           ["PackageDescription"] = assemblyInformation.ToString(),
+                           ["RepositoryType"] = repositoryInformation.RepositoryType.ToLowerInvariant(),
+                           ["RepositoryUrl"] = repositoryInformation.ToString(),
                            ["Copyright"] = "Copyright (c) 2019",
                            // analysis
                            ["RunAnalyzersDuringBuild"] = "true",

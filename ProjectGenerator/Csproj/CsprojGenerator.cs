@@ -19,30 +19,30 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
             _csprojSettingsProvider = csprojSettingsProvider;
         }
             
-        public void Generate(MasterInfo masterInfo)
+        public void Generate(MasterInformation masterInformation)
         {
-            var projectSettings = _csprojSettingsProvider.GenerateProjectSettings(masterInfo);
+            var projectSettings = _csprojSettingsProvider.GenerateProjectSettings(masterInformation);
             
-            GenerateInternal(masterInfo, projectSettings);
+            GenerateInternal(masterInformation, projectSettings);
         }
 
-        private void GenerateInternal(MasterInfo masterInfo, CsprojSettings csprojSettings)
+        private void GenerateInternal(MasterInformation masterInformation, CsprojSettings csprojSettings)
         {
             XDocument? backup = null;
             XDocument? document = null;
             
             try
             {
-                backup = ReadDocument(masterInfo.ProjectInfo.CsprojPath);
-                document = ReadDocument(masterInfo.ProjectInfo.CsprojPath);
+                backup = ReadDocument(masterInformation.ProjectInformation.CsprojPath);
+                document = ReadDocument(masterInformation.ProjectInformation.CsprojPath);
 
-                ClearFile(masterInfo.ProjectInfo.CsprojPath);
+                ClearFile(masterInformation.ProjectInformation.CsprojPath);
 
                 ClearDocument(document);
 
                 FillDocument(document, csprojSettings);
 
-                WriteDocumentToFile(masterInfo.ProjectInfo.CsprojPath, document);
+                WriteDocumentToFile(masterInformation.ProjectInformation.CsprojPath, document);
             }
             catch (Exception ex)
             {
@@ -58,7 +58,7 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
             {
                 if (backup != null && document == null)
                 {
-                    WriteDocumentToFile(masterInfo.ProjectInfo.CsprojPath, backup);
+                    WriteDocumentToFile(masterInformation.ProjectInformation.CsprojPath, backup);
                 }
             }
         }

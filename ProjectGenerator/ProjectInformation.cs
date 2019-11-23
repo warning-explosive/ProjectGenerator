@@ -1,8 +1,8 @@
 namespace SpaceEngineers.ProjectGenerator
 {
-    internal class ProjectInfo
+    internal class ProjectInformation
     {
-        internal ProjectInfo(string solutionName, string projectName, string csprojPath)
+        internal ProjectInformation(string solutionName, string projectName, string csprojPath)
         {
             SolutionName = solutionName;
             ProjectName = projectName;

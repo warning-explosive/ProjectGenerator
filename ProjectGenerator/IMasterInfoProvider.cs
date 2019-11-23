@@ -5,6 +5,6 @@ namespace SpaceEngineers.ProjectGenerator
 
     internal interface IMasterInfoProvider : IResolvable
     {
-        IEnumerable<MasterInfo> GetMasterInfos(GeneratorCliArgs generatorCliArgs);
+        IEnumerable<MasterInformation> GetMasterInfos(GeneratorCliArgs generatorCliArgs);
     }
 }

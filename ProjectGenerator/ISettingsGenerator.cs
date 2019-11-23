@@ -4,6 +4,6 @@ namespace SpaceEngineers.ProjectGenerator
 
     internal interface ISettingsGenerator : ICollectionResolvable
     {
-        void Generate(MasterInfo masterInfo);
+        void Generate(MasterInformation masterInformation);
     }
 }
