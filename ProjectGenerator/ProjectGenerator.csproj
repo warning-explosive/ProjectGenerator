@@ -6,11 +6,11 @@
     <Nullable>enable</Nullable>
     <AssemblyName>SpaceEngineers.ProjectGenerator</AssemblyName>
     <RootNamespace>SpaceEngineers.ProjectGenerator</RootNamespace>
-    <IsPackable>true</IsPackable>
-    <Title>SpaceEngineers.ProjectGenerator.ProjectGenerator</Title>
+    <IsPackable>false</IsPackable>
+    <Title>SpaceEngineers.ProjectGenerator</Title>
     <Authors>SpaceEngineers</Authors>
     <Company>SpaceEngineers</Company>
-    <PackageDescription>SpaceEngineers.ProjectGenerator.ProjectGenerator</PackageDescription>
+    <PackageDescription>SpaceEngineers.ProjectGenerator</PackageDescription>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/warning-explosive/ProjectGenerator</RepositoryUrl>
     <Copyright>Copyright (c) 2019</Copyright>
