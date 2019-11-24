@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -53,16 +53,28 @@
       <DependentUpon>IMasterInfoProvider.cs</DependentUpon>
     </Compile>
     <Compile Update="AssemblyInformation.cs">
-      <DependentUpon>MasterInformation.cs</DependentUpon>
+      <DependentUpon>SolutionInformation.cs</DependentUpon>
     </Compile>
     <Compile Update="ProjectInformation.cs">
-      <DependentUpon>MasterInformation.cs</DependentUpon>
+      <DependentUpon>SolutionInformation.cs</DependentUpon>
     </Compile>
     <Compile Update="RepositoryInformation.cs">
-      <DependentUpon>MasterInformation.cs</DependentUpon>
+      <DependentUpon>SolutionInformation.cs</DependentUpon>
+    </Compile>
+    <Compile Update="AssemblyInfoGenerator.cs">
+      <DependentUpon>SettingsGeneratorBase.cs</DependentUpon>
+    </Compile>
+    <Compile Update="CsprojGenerator.cs">
+      <DependentUpon>SettingsGeneratorBase.cs</DependentUpon>
     </Compile>
     <Compile Update="Csproj\CsprojSettingsProviderImpl.cs">
       <DependentUpon>ICsprojSettingsProvider.cs</DependentUpon>
+    </Compile>
+    <Compile Update="FileGeneratorBase.cs">
+      <DependentUpon>SettingsGeneratorBase.cs</DependentUpon>
+    </Compile>
+    <Compile Update="SettingsGeneratorBase.cs">
+      <DependentUpon>ISettingsGenerator.cs</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

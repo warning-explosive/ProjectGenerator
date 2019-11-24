@@ -4,6 +4,6 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
 
     internal interface ICsprojSettingsProvider : IResolvable
     {
-        CsprojSettings GenerateProjectSettings(MasterInformation masterInformation);
+        CsprojSettings GetProjectSettings(ProjectInformation projectInfo, SolutionInformation solutionInfo);
     }
 }

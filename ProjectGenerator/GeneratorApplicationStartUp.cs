@@ -35,13 +35,11 @@ namespace SpaceEngineers.ProjectGenerator
 
             Debug.WriteLine(generatorCliArgs.ShowProperties(BindingFlags.Instance | BindingFlags.NonPublic));
 
-            foreach (var masterInfo in _masterInfoProvider.GetMasterInfos(generatorCliArgs))
-            {
-                Console.WriteLine($"Generate settings for: {masterInfo.ProjectInfo.ProjectName}");
-
-                Task.WhenAll(_generators.Select(g => g.Generate(masterInfo)))
-                    .Wait();
-            }
+            var solutionInfo = _masterInfoProvider.GetSolutionInfo(generatorCliArgs);
+            
+            Console.WriteLine($"\nGenerate settings for '{solutionInfo.SolutionName}.sln");
+            
+            Task.WhenAll(_generators.SelectMany(g => g.Generate(solutionInfo))).Wait();
         }
     }
 }

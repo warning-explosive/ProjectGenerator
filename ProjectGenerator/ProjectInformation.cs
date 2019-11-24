@@ -2,17 +2,19 @@ namespace SpaceEngineers.ProjectGenerator
 {
     internal class ProjectInformation
     {
-        internal ProjectInformation(string solutionName, string projectName, string csprojPath)
+        internal ProjectInformation(string projectName,
+                                    string csprojPath, 
+                                    AssemblyInformation assemblyInfo)
         {
-            SolutionName = solutionName;
             ProjectName = projectName;
             CsprojPath = csprojPath;
+            AssemblyInfo = assemblyInfo;
         }
-
-        internal string SolutionName { get; }
 
         internal string ProjectName { get; }
         
         internal string CsprojPath { get; }
+
+        internal AssemblyInformation AssemblyInfo { get; }
     }
 }

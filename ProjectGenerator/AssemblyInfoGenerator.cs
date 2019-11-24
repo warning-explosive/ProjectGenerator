@@ -1,4 +1,4 @@
-namespace SpaceEngineers.ProjectGenerator.AssemblyInfo
+namespace SpaceEngineers.ProjectGenerator
 {
     using System;
     using System.IO;
@@ -10,7 +10,7 @@ namespace SpaceEngineers.ProjectGenerator.AssemblyInfo
     using Core.Extensions;
 
     [Lifestyle(EnLifestyle.Singleton)]
-    internal class AssemblyInfoGenerator : ISettingsGenerator
+    internal class AssemblyInfoGenerator : SettingsGeneratorBase
     {
         private const string PropertiesFolderName = "Properties";
         private const string AssemblyInfoFile = "AssemblyInfo.cs";
@@ -34,9 +34,9 @@ $@"{Namespace}
 
         private readonly Func<string, Regex> _getPattern = key => new Regex($@"{key}\(\""(\d)+.(\d)+.(\d)+.(.)+""\)");
         
-        public async Task Generate(MasterInformation masterInformation)
+        protected override async Task GenerateInternal(ProjectInformation projectInfo, SolutionInformation solutionInfo)
         {
-            var projectPath = Path.GetDirectoryName(masterInformation.ProjectInfo.CsprojPath) ?? string.Empty;
+            var projectPath = Path.GetDirectoryName(projectInfo.CsprojPath) ?? string.Empty;
             var projectPropertiesPath = Path.Combine(projectPath, PropertiesFolderName);
 
             if (!Directory.Exists(projectPropertiesPath))
@@ -48,13 +48,13 @@ $@"{Namespace}
 
             if (!File.Exists(assemblyInfoPath))
             {
-                Console.WriteLine($"Create new {AssemblyInfoFile}");
+                Console.WriteLine($"\tCreate new {AssemblyInfoFile}");
                 
                 File.WriteAllText(assemblyInfoPath, Template, _encoding);
             }
             else
             {
-                Console.WriteLine($"Patch existing {AssemblyInfoFile}");
+                Console.WriteLine($"\tPatch existing {AssemblyInfoFile}");
                 
                 using (var file = File.Open(assemblyInfoPath, FileMode.Open, FileAccess.ReadWrite))
                 {

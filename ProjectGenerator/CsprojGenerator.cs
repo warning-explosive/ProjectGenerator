@@ -1,4 +1,4 @@
-namespace SpaceEngineers.ProjectGenerator.Csproj
+namespace SpaceEngineers.ProjectGenerator
 {
     using System;
     using System.Diagnostics;
@@ -9,9 +9,10 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
     using Core.CompositionRoot.Attributes;
     using Core.CompositionRoot.Enumerations;
     using Core.Extensions;
+    using Csproj;
 
     [Lifestyle(EnLifestyle.Singleton)]
-    internal class CsprojGenerator : ISettingsGenerator
+    internal class CsprojGenerator : SettingsGeneratorBase
     {
         private readonly ICsprojSettingsProvider _csprojSettingsProvider;
         
@@ -19,33 +20,33 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
         {
             _csprojSettingsProvider = csprojSettingsProvider;
         }
-            
-        public async Task Generate(MasterInformation masterInformation)
+        
+        protected override async Task GenerateInternal(ProjectInformation projectInfo, SolutionInformation solutionInfo)
         {
-            var projectSettings = _csprojSettingsProvider.GenerateProjectSettings(masterInformation);
+            var projectSettings = _csprojSettingsProvider.GetProjectSettings(projectInfo, solutionInfo);
             
-            await Task.Factory.StartNew(() => GenerateInternal(masterInformation, projectSettings));
+            await Task.Factory.StartNew(() => GenerateInternal(projectInfo, projectSettings));
         }
 
-        private void GenerateInternal(MasterInformation masterInformation, CsprojSettings csprojSettings)
+        private void GenerateInternal(ProjectInformation projectInfo, CsprojSettings csprojSettings)
         {
-            Console.WriteLine($"Generate {masterInformation.ProjectInfo.ProjectName}.csproj");
+            Console.WriteLine($"\tGenerate {projectInfo.ProjectName}.csproj");
             
             XDocument? backup = null;
             XDocument? document = null;
             
             try
             {
-                backup = ReadDocument(masterInformation.ProjectInfo.CsprojPath);
-                document = ReadDocument(masterInformation.ProjectInfo.CsprojPath);
+                backup = ReadDocument(projectInfo.CsprojPath);
+                document = ReadDocument(projectInfo.CsprojPath);
 
-                ClearFile(masterInformation.ProjectInfo.CsprojPath);
+                ClearFile(projectInfo.CsprojPath);
 
                 ClearDocument(document);
 
                 FillDocument(document, csprojSettings);
 
-                WriteDocumentToFile(masterInformation.ProjectInfo.CsprojPath, document);
+                WriteDocumentToFile(projectInfo.CsprojPath, document);
             }
             catch (Exception ex)
             {
@@ -61,7 +62,7 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
             {
                 if (backup != null && document == null)
                 {
-                    WriteDocumentToFile(masterInformation.ProjectInfo.CsprojPath, backup);
+                    WriteDocumentToFile(projectInfo.CsprojPath, backup);
                 }
             }
         }

@@ -5,6 +5,7 @@ namespace SpaceEngineers.ProjectGenerator
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using Core.CompositionRoot.Attributes;
     using Core.CompositionRoot.Enumerations;
     using Core.Extensions;
@@ -12,19 +13,18 @@ namespace SpaceEngineers.ProjectGenerator
     [Lifestyle(EnLifestyle.Singleton)]
     internal class MasterInfoProviderImpl : IMasterInfoProvider
     {
-        public IEnumerable<MasterInformation> GetMasterInfos(GeneratorCliArgs generatorCliArgs)
+        public SolutionInformation GetSolutionInfo(GeneratorCliArgs generatorCliArgs)
         {
             var solutionName = GetSolutionName(generatorCliArgs);
-            Console.WriteLine(solutionName.ShowVariable(nameof(solutionName)));
-
+            
             var repositoryInfo = new RepositoryInformation(Constants.Git, solutionName);
 
             var projectInfos = GetProjects(solutionName, generatorCliArgs).ToArray();
-            projectInfos.Each(p => Console.WriteLine(p.ProjectName.ShowVariable(nameof(p.ProjectName))));
 
-            return projectInfos.Select(projectInfo => new MasterInformation(projectInfo,
-                                                                            new AssemblyInformation(projectInfo),
-                                                                            repositoryInfo));
+            return new SolutionInformation(generatorCliArgs.SolutionFolder,
+                                           solutionName,
+                                           projectInfos,
+                                           repositoryInfo);
         }
 
         private static string GetSolutionName(GeneratorCliArgs generatorCliArgs)
@@ -45,7 +45,14 @@ namespace SpaceEngineers.ProjectGenerator
 
             Debug.Assert(projectFilesPaths.Any(), $"Not found any project in {generatorCliArgs.SolutionFolder} or its subdirectories");
 
-            return projectFilesPaths.Select(csprojPath => new ProjectInformation(solutionName, Path.GetFileNameWithoutExtension(csprojPath), csprojPath));
+            return projectFilesPaths.Select(csprojPath =>
+                                            {
+                                                var projectName = Path.GetFileNameWithoutExtension(csprojPath);
+                                                
+                                                return new ProjectInformation(projectName,
+                                                                              csprojPath,
+                                                                              new AssemblyInformation(projectName, solutionName));
+                                            });
         }
         
     }
