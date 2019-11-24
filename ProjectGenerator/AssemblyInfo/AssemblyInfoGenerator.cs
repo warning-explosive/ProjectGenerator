@@ -12,43 +12,49 @@ namespace SpaceEngineers.ProjectGenerator.AssemblyInfo
     [Lifestyle(EnLifestyle.Singleton)]
     internal class AssemblyInfoGenerator : ISettingsGenerator
     {
-        private readonly Encoding _encoding = new UTF8Encoding(true);
-
+        private const string PropertiesFolderName = "Properties";
+        private const string AssemblyInfoFile = "AssemblyInfo.cs";
+        
+        private const string Namespace = "using System.Reflection;";
         private const string AssemblyVersion = nameof(AssemblyVersion);
         private const string AssemblyFileVersion = nameof(AssemblyFileVersion);
         private const string AssemblyInformationalVersion = nameof(AssemblyInformationalVersion);
-        
-        private readonly string _template = 
-$@"using System.Reflection;
 
-[assembly: {AssemblyVersion}(""1.0.0.0"")]
-[assembly: {AssemblyFileVersion}(""1.0.0.0"")]
-[assembly: {AssemblyInformationalVersion}(""1.0.0.0"")]";
+        private readonly Encoding _encoding = new UTF8Encoding(true);
         
-        private readonly Func<string, Regex> _getPattern = key => new Regex($@"{key}\(\""(\d)+.(\d)+.(\d)+.(.)+""\)");
         private readonly Func<string, string> _getReplacement = key => $"{key}(\"1.0.0.0\")";
+        private readonly Func<string, string> _getAttribute = replacement => $"[assembly: {replacement}]";
+
+        private string Template =>
+$@"{Namespace}
+
+{_getAttribute(_getReplacement(AssemblyVersion))}
+{_getAttribute(_getReplacement(AssemblyFileVersion))}
+{_getAttribute(_getReplacement(AssemblyInformationalVersion))}";
+
+        private readonly Func<string, Regex> _getPattern = key => new Regex($@"{key}\(\""(\d)+.(\d)+.(\d)+.(.)+""\)");
         
         public async Task Generate(MasterInformation masterInformation)
         {
             var projectPath = Path.GetDirectoryName(masterInformation.ProjectInfo.CsprojPath) ?? string.Empty;
-            var projectPropertiesPath = Path.Combine(projectPath, "Properties");
+            var projectPropertiesPath = Path.Combine(projectPath, PropertiesFolderName);
 
             if (!Directory.Exists(projectPropertiesPath))
             {
                 Directory.CreateDirectory(projectPropertiesPath);
             }
 
-            var assemblyInfoPath = Path.Combine(projectPropertiesPath, "AssemblyInfo.cs");
+            var assemblyInfoPath = Path.Combine(projectPropertiesPath, AssemblyInfoFile);
 
             if (!File.Exists(assemblyInfoPath))
             {
-                Console.WriteLine("Create new AssemblyInfo.cs");
+                Console.WriteLine($"Create new {AssemblyInfoFile}");
                 
-                File.WriteAllText(assemblyInfoPath, _template, _encoding);
+                File.WriteAllText(assemblyInfoPath, Template, _encoding);
             }
             else
             {
-                Console.WriteLine("Patch existing AssemblyInfo.cs");
+                Console.WriteLine($"Patch existing {AssemblyInfoFile}");
                 
                 using (var file = File.Open(assemblyInfoPath, FileMode.Open, FileAccess.ReadWrite))
                 {
@@ -63,16 +69,33 @@ $@"using System.Reflection;
 
         private string PatchExistingAssemblyInfo(string text)
         {
-            text = Replace(text, AssemblyVersion);
-            text = Replace(text, AssemblyFileVersion);
-            text = Replace(text, AssemblyInformationalVersion);
+            if (text.Trim(' ', '\n', '\t').Length == 0)
+            {
+                return Template;
+            }
+
+            if (!new Regex(Namespace).IsMatch(text))
+            {
+                text = new StringBuilder(text).Insert(0, $"{Namespace}\n").ToString();
+            }
+
+            text = InsertOrReplace(text, AssemblyVersion);
+            text = InsertOrReplace(text, AssemblyFileVersion);
+            text = InsertOrReplace(text, AssemblyInformationalVersion);
 
             return text;
         }
 
-        private string Replace(string text, string key)
+        private string InsertOrReplace(string text, string key)
         {
-            return _getPattern(key).Replace(text, _getReplacement(key));
+            var pattern = _getPattern(key);
+            var replacement = _getReplacement(key);
+
+            text = pattern.IsMatch(text)
+                       ? pattern.Replace(text, replacement)
+                       : new StringBuilder(text).Append("\n" + _getAttribute(replacement)).ToString();
+
+            return text;
         }
     }
 }
