@@ -17,21 +17,23 @@
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <RunAnalyzers>true</RunAnalyzers>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <TieredCompilation>true</TieredCompilation>
+    <Library />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="SpaceEngineers.Core.CliArgumentsParser" Version="1.1.0-alpha.3" />
-    <PackageReference Include="SpaceEngineers.Core.CompositionRoot" Version="1.1.0-alpha.3" />
-    <PackageReference Include="SpaceEngineers.Core.Extensions" Version="1.1.0-alpha.3" />
-    <PackageReference Include="SpaceEngineers.ExecutableApplication.Abstractions" Version="1.0.1" />
+    <PackageReference Include="SpaceEngineers.Core.Basics" Version="1.1.0-alpha.8" />
+    <PackageReference Include="SpaceEngineers.Core.CliArgumentsParser" Version="1.1.0-alpha.8" />
+    <PackageReference Include="SpaceEngineers.Core.CompositionRoot" Version="1.1.0-alpha.8" />
+    <PackageReference Include="SpaceEngineers.ExecutableApplication.Abstractions" Version="1.1.0-alpha.3" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="UnsafeGeneratorCliArgs.cs">
@@ -62,19 +64,22 @@
       <DependentUpon>SolutionInformation.cs</DependentUpon>
     </Compile>
     <Compile Update="AssemblyInfoGenerator.cs">
-      <DependentUpon>SettingsGeneratorBase.cs</DependentUpon>
+      <DependentUpon>ProjectSettingsGeneratorBase.cs</DependentUpon>
     </Compile>
     <Compile Update="CsprojGenerator.cs">
-      <DependentUpon>SettingsGeneratorBase.cs</DependentUpon>
+      <DependentUpon>ProjectSettingsGeneratorBase.cs</DependentUpon>
     </Compile>
     <Compile Update="Csproj\CsprojSettingsProviderImpl.cs">
       <DependentUpon>ICsprojSettingsProvider.cs</DependentUpon>
     </Compile>
-    <Compile Update="FileGeneratorBase.cs">
-      <DependentUpon>SettingsGeneratorBase.cs</DependentUpon>
-    </Compile>
-    <Compile Update="SettingsGeneratorBase.cs">
+    <Compile Update="ProjectSettingsGeneratorBase.cs">
       <DependentUpon>ISettingsGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Update="SolutionSettingsGeneratorBase.cs">
+      <DependentUpon>ISettingsGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Update="NuGetConfigGenerator.cs">
+      <DependentUpon>SolutionSettingsGeneratorBase.cs</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

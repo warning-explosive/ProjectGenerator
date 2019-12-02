@@ -8,7 +8,7 @@ namespace SpaceEngineers.ProjectGenerator
     using System.Reflection;
     using Core.CompositionRoot.Attributes;
     using Core.CompositionRoot.Enumerations;
-    using Core.Extensions;
+    using Core.Basics;
 
     [Lifestyle(EnLifestyle.Singleton)]
     internal class MasterInfoProviderImpl : IMasterInfoProvider

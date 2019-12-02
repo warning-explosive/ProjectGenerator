@@ -7,10 +7,10 @@ namespace SpaceEngineers.ProjectGenerator
     using System.Threading.Tasks;
     using Core.CompositionRoot.Attributes;
     using Core.CompositionRoot.Enumerations;
-    using Core.Extensions;
+    using Core.Basics;
 
     [Lifestyle(EnLifestyle.Singleton)]
-    internal class AssemblyInfoGenerator : SettingsGeneratorBase
+    internal class AssemblyInfoGenerator : ProjectSettingsGeneratorBase
     {
         private const string PropertiesFolderName = "Properties";
         private const string AssemblyInfoFile = "AssemblyInfo.cs";

@@ -16,7 +16,10 @@ namespace SpaceEngineers.ProjectGenerator
 
         public override string ToString()
         {
-            return $"{SpaceEngineers}.{_solutionName}.{_projectName}";
+            return _solutionName == _projectName
+                   || _projectName.StartsWith(_solutionName)
+                       ? $"{SpaceEngineers}.{_projectName}"
+                       : $"{SpaceEngineers}.{_solutionName}.{_projectName}";
         }
     }
 }

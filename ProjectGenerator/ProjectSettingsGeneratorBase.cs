@@ -3,7 +3,7 @@ namespace SpaceEngineers.ProjectGenerator
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    internal abstract class SettingsGeneratorBase : ISettingsGenerator
+    internal abstract class ProjectSettingsGeneratorBase : ISettingsGenerator
     {
         public IEnumerable<Task> Generate(SolutionInformation solutionInfo)
         {

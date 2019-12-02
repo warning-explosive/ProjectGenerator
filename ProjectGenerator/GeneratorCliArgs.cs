@@ -3,7 +3,7 @@ namespace SpaceEngineers.ProjectGenerator
     using System;
     using System.Diagnostics;
     using System.Linq;
-    using Core.Extensions;
+    using Core.Basics;
 
     internal class GeneratorCliArgs
     {

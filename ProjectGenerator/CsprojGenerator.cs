@@ -8,11 +8,11 @@ namespace SpaceEngineers.ProjectGenerator
     using System.Xml.Linq;
     using Core.CompositionRoot.Attributes;
     using Core.CompositionRoot.Enumerations;
-    using Core.Extensions;
+    using Core.Basics;
     using Csproj;
 
     [Lifestyle(EnLifestyle.Singleton)]
-    internal class CsprojGenerator : SettingsGeneratorBase
+    internal class CsprojGenerator : ProjectSettingsGeneratorBase
     {
         private readonly ICsprojSettingsProvider _csprojSettingsProvider;
         

@@ -16,12 +16,14 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
 
         private IDictionary<string, string?> ProjectWideSettings(ProjectInformation projectInfo, SolutionInformation solutionInfo)
         {
-            var isLibrary = projectInfo.ProjectName.EndsWith(".Test");
+            var isExecutable = projectInfo.ProjectName.EndsWith(".Executable");
+            var isTest = projectInfo.ProjectName.EndsWith(".Test");
+            var isApp = isExecutable || isTest;
 
             var dict = new Dictionary<string, string?>
                        {
                            // development
-                           ["TargetFramework"] = isLibrary
+                           ["TargetFramework"] = isApp
                                                      ? "netcoreapp3.0"
                                                      : "netstandard2.0",
                            ["LangVersion"] = "latest",
@@ -30,7 +32,7 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
                            ["AssemblyName"] = projectInfo.AssemblyInfo.ToString(),
                            ["RootNamespace"] = projectInfo.AssemblyInfo.ToString(),
                            // nuget
-                           ["IsPackable"] = isLibrary
+                           ["IsPackable"] = isApp
                                                 ? "false"
                                                 : "true",
                            ["Title"] = projectInfo.AssemblyInfo.ToString(),
@@ -45,18 +47,19 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
                            ["RunAnalyzersDuringLiveAnalysis"] = "true",
                            ["RunAnalyzers"] = "true",
                            // build
+                           ["CopyLocalLockFileAssemblies"] = "false",
                            ["GenerateAssemblyInfo"] = "false",
                            ["GeneratePackageOnBuild"] = "false",
                            ["TreatWarningsAsErrors"] = "true",
                            ["AutoGenerateBindingRedirects"] = "true",
-                           ["GenerateDocumentationFile"] = isLibrary
+                           ["GenerateDocumentationFile"] = isTest
                                                                ? "false"
                                                                : "true",
                            // run-time
                            ["TieredCompilation"] = "true",
                        };
 
-            if (isLibrary)
+            if (!isApp)
             {
                 dict.Add("Library", null);
             }

@@ -10,7 +10,7 @@ namespace SpaceEngineers.ProjectGenerator
     using Core.CompositionRoot;
     using Core.CompositionRoot.Attributes;
     using Core.CompositionRoot.Enumerations;
-    using Core.Extensions;
+    using Core.Basics;
     using ExecutableApplication.Abstractions;
 
     [Lifestyle(EnLifestyle.Singleton)]
@@ -20,24 +20,28 @@ namespace SpaceEngineers.ProjectGenerator
 
         private readonly ICollection<ISettingsGenerator> _generators;
         
+        private readonly ICliArgumentsParser _cliArgumentsParser;
+        
         public GeneratorApplicationStartUp(IMasterInfoProvider masterInfoProvider,
-                                           ICollection<ISettingsGenerator> generators)
+                                           ICollection<ISettingsGenerator> generators,
+                                           ICliArgumentsParser cliArgumentsParser)
         {
             _masterInfoProvider = masterInfoProvider;
             _generators = generators;
+            _cliArgumentsParser = cliArgumentsParser;
         }
 
         public void Run(string[] args)
         {
-            var generatorCliArgs = DependencyContainer.Resolve<ICliArgumentsParser>()
-                                                      .Parse<UnsafeGeneratorCliArgs>(args)
-                                                      .ToSafe();
+            var generatorCliArgs = _cliArgumentsParser
+                                  .Parse<UnsafeGeneratorCliArgs>(args)
+                                  .ToSafe();
 
             Debug.WriteLine(generatorCliArgs.ShowProperties(BindingFlags.Instance | BindingFlags.NonPublic));
 
             var solutionInfo = _masterInfoProvider.GetSolutionInfo(generatorCliArgs);
             
-            Console.WriteLine($"\nGenerate settings for '{solutionInfo.SolutionName}.sln");
+            Console.WriteLine($"\nGenerate settings for '{solutionInfo.SolutionName}.sln'");
             
             Task.WhenAll(_generators.SelectMany(g => g.Generate(solutionInfo))).Wait();
         }
