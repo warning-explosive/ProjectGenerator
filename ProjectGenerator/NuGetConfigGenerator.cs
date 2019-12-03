@@ -12,8 +12,8 @@ namespace SpaceEngineers.ProjectGenerator
         protected override string Content(SolutionInformation solutionInfo)
         {
             var root = new XElement("configuration");
-
-            var document = new XDocument(root);
+            var declaration = new XDeclaration("1.0", "utf-8", "yes");
+            var document = new XDocument(declaration, root);
 
             root.Add(new XElement("config",
                                   new XElement("add",
