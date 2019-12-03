@@ -1,14 +1,11 @@
 namespace SpaceEngineers.ProjectGenerator
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
     using Core.CompositionRoot.Attributes;
     using Core.CompositionRoot.Enumerations;
-    using Core.Basics;
 
     [Lifestyle(EnLifestyle.Singleton)]
     internal class MasterInfoProviderImpl : IMasterInfoProvider
@@ -17,7 +14,7 @@ namespace SpaceEngineers.ProjectGenerator
         {
             var solutionName = GetSolutionName(generatorCliArgs);
             
-            var repositoryInfo = new RepositoryInformation(Constants.Git, solutionName);
+            var repositoryInfo = new RepositoryInformation("git", solutionName);
 
             var projectInfos = GetProjects(solutionName, generatorCliArgs).ToArray();
 
@@ -29,7 +26,7 @@ namespace SpaceEngineers.ProjectGenerator
 
         private static string GetSolutionName(GeneratorCliArgs generatorCliArgs)
         {
-            var solutionFile = Directory.GetFiles(generatorCliArgs.SolutionFolder, Constants.SlnExtension, SearchOption.TopDirectoryOnly)
+            var solutionFile = Directory.GetFiles(generatorCliArgs.SolutionFolder, "*.sln", SearchOption.TopDirectoryOnly)
                                         .SingleOrDefault();
 
             Debug.Assert(solutionFile != null, $"Solution file is not found in {generatorCliArgs.SolutionFolder}");
@@ -41,7 +38,7 @@ namespace SpaceEngineers.ProjectGenerator
 
         private static IEnumerable<ProjectInformation> GetProjects(string solutionName, GeneratorCliArgs generatorCliArgs)
         {
-            var projectFilesPaths = Directory.GetFiles(generatorCliArgs.SolutionFolder, Constants.CsprojExtension, SearchOption.AllDirectories);
+            var projectFilesPaths = Directory.GetFiles(generatorCliArgs.SolutionFolder, "*.csproj", SearchOption.AllDirectories);
 
             Debug.Assert(projectFilesPaths.Any(), $"Not found any project in {generatorCliArgs.SolutionFolder} or its subdirectories");
 

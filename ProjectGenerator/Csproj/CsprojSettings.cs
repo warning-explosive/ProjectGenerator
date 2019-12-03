@@ -15,10 +15,10 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
             ProjectWideGroup = CreatePropertyGroup(projectWideSettings);
             
             DebugGroup = CreatePropertyGroup(debugSettings);
-            DebugGroup?.Add(new XAttribute(Constants.Condition, string.Format(Mode, Constants.Debug)));
+            DebugGroup?.Add(new XAttribute("Condition", string.Format(Mode, "Debug")));
                 
             ReleaseGroup = CreatePropertyGroup(releaseSettings);
-            ReleaseGroup?.Add(new XAttribute(Constants.Condition, string.Format(Mode, Constants.Release)));
+            ReleaseGroup?.Add(new XAttribute("Condition", string.Format(Mode, "Release")));
         }
 
         internal XElement? ProjectWideGroup { get; }
@@ -30,7 +30,7 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
         private XElement? CreatePropertyGroup(IDictionary<string, string?> values)
         {
             return values.Any()
-                       ? new XElement(Constants.PropertyGroup, values.Select(z => new XElement(z.Key, z.Value)))
+                       ? new XElement("PropertyGroup", values.Select(z => new XElement(z.Key, z.Value)))
                        : null;
         }
     }

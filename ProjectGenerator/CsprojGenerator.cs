@@ -91,12 +91,12 @@ namespace SpaceEngineers.ProjectGenerator
                 throw new ArgumentNullException(nameof(document.Root) + " node is not exist");
             }
             
-            Debug.Assert(document.Root.Name == Constants.Project, nameof(document.Root) + " node is not <Project/> node");
+            Debug.Assert(document.Root.Name == "Project", nameof(document.Root) + " is not <Project/> node");
 
             var query = document.Root
                                 .Nodes()
                                 .OfType<XElement>()
-                                .Where(z => z.Name == Constants.PropertyGroup);
+                                .Where(z => z.Name == "PropertyGroup");
 
             while (query.Any())
             {

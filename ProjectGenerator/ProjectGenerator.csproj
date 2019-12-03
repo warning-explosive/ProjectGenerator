@@ -82,7 +82,16 @@
       <DependentUpon>SolutionSettingsGeneratorBase.cs</DependentUpon>
     </Compile>
     <Compile Update="GitignoreGenerator.cs">
+      <DependentUpon>SolutionConfigurationFileGeneratorBase.cs</DependentUpon>
+    </Compile>
+    <Compile Update="SolutionConfigurationFileGeneratorBase.cs">
       <DependentUpon>SolutionSettingsGeneratorBase.cs</DependentUpon>
+    </Compile>
+    <Compile Update="AppveyorGenerator.cs">
+      <DependentUpon>SolutionConfigurationFileGeneratorBase.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GitVersionGenerator.cs">
+      <DependentUpon>SolutionConfigurationFileGeneratorBase.cs</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

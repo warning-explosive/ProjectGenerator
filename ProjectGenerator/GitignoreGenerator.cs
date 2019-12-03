@@ -1,22 +1,15 @@
 namespace SpaceEngineers.ProjectGenerator
 {
-    using System;
-    using System.IO;
-    using System.Text;
-    using System.Threading.Tasks;
-    using Core.Basics;
     using Core.CompositionRoot.Attributes;
     using Core.CompositionRoot.Enumerations;
 
-    /// <inheritdoc />
     [Lifestyle(EnLifestyle.Singleton)]
-    internal class GitignoreGenerator : SolutionSettingsGeneratorBase
+    internal class GitignoreGenerator : SolutionConfigurationFileGeneratorBase
     {
-        private const string FileName = ".gitignore";
+        protected override string FileName => ".gitignore";
         
-        private const string Content = 
-@"
-###########
+        protected override string Content =>
+@"###########
 # Folders #
 ###########
 .hg/
@@ -34,25 +27,5 @@ namespace SpaceEngineers.ProjectGenerator
 *.user
 *.orig
 ";
-        
-        /// <inheritdoc />
-        protected override async Task GenerateInternalAsync(SolutionInformation solutionInfo)
-        {
-            var gitignorePath = Path.Combine(solutionInfo.SolutionFolder, FileName);
-            
-            Console.WriteLine($"\tGenerate {FileName}");
-
-            if (File.Exists(gitignorePath))
-            {
-                using (var gitignore = File.OpenWrite(gitignorePath))
-                {
-                    await gitignore.OverWriteAllAsync(Content, Encoding);
-                }
-            }
-            else
-            {
-                File.WriteAllText(gitignorePath, Content, Encoding);
-            }
-        }
     }
 }

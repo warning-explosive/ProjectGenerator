@@ -7,7 +7,6 @@ namespace SpaceEngineers.ProjectGenerator
     using Core.CompositionRoot.Attributes;
     using Core.CompositionRoot.Enumerations;
 
-    /// <inheritdoc />
     [Lifestyle(EnLifestyle.Singleton)]
     internal class NuGetConfigGenerator : SolutionSettingsGeneratorBase
     {
