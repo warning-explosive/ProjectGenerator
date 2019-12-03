@@ -2,6 +2,7 @@ namespace SpaceEngineers.ProjectGenerator
 {
     using System;
     using System.IO;
+    using System.Threading.Tasks;
     using System.Xml.Linq;
     using Core.CompositionRoot.Attributes;
     using Core.CompositionRoot.Enumerations;
@@ -12,7 +13,12 @@ namespace SpaceEngineers.ProjectGenerator
     {
         private const string FileName = "NuGet.config";
 
-        protected override void GenerateInternal(SolutionInformation solutionInfo)
+        protected override Task GenerateInternalAsync(SolutionInformation solutionInfo)
+        {
+            return Task.Factory.StartNew(() => GenerateInternal(solutionInfo));
+        }
+
+        private void GenerateInternal(SolutionInformation solutionInfo)
         {
             var root = new XElement("configuration");
 

@@ -3,6 +3,7 @@ namespace SpaceEngineers.ProjectGenerator
     using System;
     using System.IO;
     using System.Text;
+    using System.Threading.Tasks;
     using Core.Basics;
     using Core.CompositionRoot.Attributes;
     using Core.CompositionRoot.Enumerations;
@@ -35,7 +36,7 @@ namespace SpaceEngineers.ProjectGenerator
 ";
         
         /// <inheritdoc />
-        protected override async void GenerateInternal(SolutionInformation solutionInfo)
+        protected override async Task GenerateInternalAsync(SolutionInformation solutionInfo)
         {
             var gitignorePath = Path.Combine(solutionInfo.SolutionFolder, FileName);
             

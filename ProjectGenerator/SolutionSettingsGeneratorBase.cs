@@ -13,12 +13,12 @@ namespace SpaceEngineers.ProjectGenerator
         /// <inheritdoc />
         public IEnumerable<Task> Generate(SolutionInformation solutionInfo)
         {
-            yield return Task.Factory.StartNew(() => GenerateInternal(solutionInfo));
+            yield return GenerateInternalAsync(solutionInfo);
         }
 
         /// <summary> GenerateInternal </summary>
         /// <param name="solutionInfo">SolutionInformation</param>
         /// <returns>Async operation with configuration file</returns>
-        protected abstract void GenerateInternal(SolutionInformation solutionInfo);
+        protected abstract Task GenerateInternalAsync(SolutionInformation solutionInfo);
     }
 }

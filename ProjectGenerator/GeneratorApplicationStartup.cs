@@ -7,28 +7,27 @@ namespace SpaceEngineers.ProjectGenerator
     using System.Reflection;
     using System.Threading.Tasks;
     using Core.CliArgumentsParser;
-    using Core.CompositionRoot;
     using Core.CompositionRoot.Attributes;
     using Core.CompositionRoot.Enumerations;
     using Core.Basics;
     using ExecutableApplication.Abstractions;
 
     [Lifestyle(EnLifestyle.Singleton)]
-    internal class GeneratorApplicationStartUp : IApplicationStartup
+    internal class GeneratorApplicationStartup : IApplicationStartup
     {
+        private readonly ICliArgumentsParser _cliArgumentsParser;
+
         private readonly IMasterInfoProvider _masterInfoProvider;
 
         private readonly ICollection<ISettingsGenerator> _generators;
-        
-        private readonly ICliArgumentsParser _cliArgumentsParser;
-        
-        public GeneratorApplicationStartUp(IMasterInfoProvider masterInfoProvider,
-                                           ICollection<ISettingsGenerator> generators,
-                                           ICliArgumentsParser cliArgumentsParser)
+
+        public GeneratorApplicationStartup(ICliArgumentsParser cliArgumentsParser,
+                                           IMasterInfoProvider masterInfoProvider,
+                                           ICollection<ISettingsGenerator> generators)
         {
+            _cliArgumentsParser = cliArgumentsParser;
             _masterInfoProvider = masterInfoProvider;
             _generators = generators;
-            _cliArgumentsParser = cliArgumentsParser;
         }
 
         public void Run(string[] args)
