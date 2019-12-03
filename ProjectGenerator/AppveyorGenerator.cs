@@ -8,8 +8,8 @@ namespace SpaceEngineers.ProjectGenerator
     {
         protected override string FileName => "appveyor.yml";
 
-        protected override string Content =>
-@"#---------------------------------#
+        protected override string Content(SolutionInformation solutionInfo) =>
+$@"#---------------------------------#
 #      general configuration      #
 #---------------------------------#
 
@@ -50,7 +50,7 @@ max_jobs: 1
 image: Visual Studio 2019
 
 # clone directory
-clone_folder: c:\projects\Core
+clone_folder: c:\projects\{solutionInfo.SolutionName}
 
 # clone entire repository history if not defined
 shallow_clone: false
@@ -100,7 +100,7 @@ for:
       - /support-(\d)+.(\d)+.(\d)+/
 
 # debug job filter
--  
+-
   matrix:
     only:
       - configuration: Debug
@@ -115,7 +115,7 @@ for:
 # ""project"" is relative to the original build directory and not influenced by directory changes in ""before_build"".
 build:
   parallel: true                                                                # enable MSBuild parallel builds
-  project: Core.sln                                                             # path to Visual Studio solution or project
+  project: {solutionInfo.SolutionName}.sln                                      # path to Visual Studio solution or project
   publish_wap: false                                                            # package Web Application Projects (WAP) for Web Deploy
   publish_wap_xcopy: false                                                      # package Web Application Projects (WAP) for XCopy deployment
   publish_wap_beanstalk: false                                                  # Package Web Applications for AWS Elastic Beanstalk deployment
@@ -142,9 +142,9 @@ after_build:
       $ErrorActionPreference = ""Stop"";
 
       Function Show([string]$arg)
-      {
+      {{
           Write-host $arg -ForegroundColor blue
-      }
+      }}
 
       $loc = Get-Location
       Show $loc
@@ -152,7 +152,7 @@ after_build:
       $FullSemVer = gitversion /output json /showvariable FullSemVer
       Show $FullSemVer
 
-      Get-ChildItem -Path $loc -Filter *.csproj -Recurse -File -Name| ForEach-Object {
+      Get-ChildItem -Path $loc -Filter *.csproj -Recurse -File -Name| ForEach-Object {{
           $csprojFileName = [System.IO.Path]::GetFileName($_)
           $projectRelativeDirectory = [System.IO.Path]::GetDirectoryName($_)
           $csprojRelativePath = [System.IO.Path]::Combine($projectRelativeDirectory, $csprojFileName)
@@ -161,7 +161,7 @@ after_build:
           Show $packCmd
           Invoke-Expression $packCmd
 
-          Get-ChildItem -Path $projectRelativeDirectory -Filter *.nupkg -Recurse -File -Name| ForEach-Object {
+          Get-ChildItem -Path $projectRelativeDirectory -Filter *.nupkg -Recurse -File -Name| ForEach-Object {{
               $nupkgFileName = [System.IO.Path]::GetFileName($_)
               $nupkgRelativeDirectory = [System.IO.Path]::GetDirectoryName($_)
               $nupkgRelativePath = [System.IO.Path]::Combine($projectRelativeDirectory, $nupkgRelativeDirectory, $nupkgFileName)
@@ -169,8 +169,8 @@ after_build:
               $pushArtifact = ""appveyor PushArtifact '$nupkgRelativePath'""
               Show $pushArtifact
               Invoke-Expression $pushArtifact
-          }
-      }
+          }}
+      }}
 
 #---------------------------------#
 #       tests configuration       #
@@ -196,7 +196,7 @@ notifications:
   # Email
   - provider: Email
     to:
-      - '{{commitAuthorEmail}}'
+      - '{{{{commitAuthorEmail}}}}'
     on_build_success: true
     on_build_failure: true
     on_build_status_changed: true

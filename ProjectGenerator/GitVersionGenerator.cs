@@ -8,7 +8,7 @@ namespace SpaceEngineers.ProjectGenerator
     {
         protected override string FileName => "GitVersion.yml";
 
-        protected override string Content =>
+        protected override string Content(SolutionInformation solutionInfo) =>
 @"assembly-versioning-scheme: MajorMinorPatch
 assembly-file-versioning-scheme: MajorMinorPatchTag
 assembly-informational-format: '{SemVer}'

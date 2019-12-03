@@ -8,7 +8,7 @@ namespace SpaceEngineers.ProjectGenerator
     {
         protected override string FileName => ".gitignore";
         
-        protected override string Content =>
+        protected override string Content(SolutionInformation solutionInfo) =>
 @"###########
 # Folders #
 ###########

@@ -8,8 +8,8 @@ namespace SpaceEngineers.ProjectGenerator
     internal abstract class SolutionConfigurationFileGeneratorBase : SolutionSettingsGeneratorBase
     {
         protected abstract string FileName { get; }
-        
-        protected abstract string Content { get; }
+
+        protected abstract string Content(SolutionInformation solutionInfo);
 
         protected override async Task GenerateInternalAsync(SolutionInformation solutionInfo)
         {
@@ -21,12 +21,12 @@ namespace SpaceEngineers.ProjectGenerator
             {
                 using (var gitignore = File.OpenWrite(gitignorePath))
                 {
-                    await gitignore.OverWriteAllAsync(Content, Encoding);
+                    await gitignore.OverWriteAllAsync(Content(solutionInfo), Encoding);
                 }
             }
             else
             {
-                File.WriteAllText(gitignorePath, Content, Encoding);
+                File.WriteAllText(gitignorePath, Content(solutionInfo), Encoding);
             }
         }
     }
