@@ -3,7 +3,6 @@ namespace SpaceEngineers.ProjectGenerator
     using System;
     using System.IO;
     using System.Threading.Tasks;
-    using Core.Basics;
 
     internal abstract class SolutionConfigurationFileGeneratorBase : SolutionSettingsGeneratorBase
     {
@@ -11,23 +10,13 @@ namespace SpaceEngineers.ProjectGenerator
 
         protected abstract string Content(SolutionInformation solutionInfo);
 
-        protected override async Task GenerateInternalAsync(SolutionInformation solutionInfo)
+        protected override Task GenerateInternalAsync(SolutionInformation solutionInfo)
         {
             var gitignorePath = Path.Combine(solutionInfo.SolutionFolder, FileName);
             
             Console.WriteLine($"\tGenerate {FileName}");
 
-            if (File.Exists(gitignorePath))
-            {
-                using (var gitignore = File.OpenWrite(gitignorePath))
-                {
-                    await gitignore.OverWriteAllAsync(Content(solutionInfo), Encoding);
-                }
-            }
-            else
-            {
-                File.WriteAllText(gitignorePath, Content(solutionInfo), Encoding);
-            }
+            return Task.Factory.StartNew(() => File.WriteAllText(gitignorePath, Content(solutionInfo), Encoding));
         }
     }
 }

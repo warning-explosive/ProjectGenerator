@@ -1,23 +1,15 @@
 namespace SpaceEngineers.ProjectGenerator
 {
-    using System;
-    using System.IO;
-    using System.Threading.Tasks;
     using System.Xml.Linq;
     using Core.CompositionRoot.Attributes;
     using Core.CompositionRoot.Enumerations;
 
     [Lifestyle(EnLifestyle.Singleton)]
-    internal class NuGetConfigGenerator : SolutionSettingsGeneratorBase
+    internal class NuGetConfigGenerator : SolutionConfigurationFileGeneratorBase
     {
-        private const string FileName = "NuGet.config";
+        protected override string FileName => "NuGet.config";
 
-        protected override Task GenerateInternalAsync(SolutionInformation solutionInfo)
-        {
-            return Task.Factory.StartNew(() => GenerateInternal(solutionInfo));
-        }
-
-        private void GenerateInternal(SolutionInformation solutionInfo)
+        protected override string Content(SolutionInformation solutionInfo)
         {
             var root = new XElement("configuration");
 
@@ -38,28 +30,16 @@ namespace SpaceEngineers.ProjectGenerator
                                                new XAttribute("key", "automatic"),
                                                new XAttribute("value", "true"))),
                      new XElement("solution",
-                                  new XAttribute("key", "disableSourceControlIntegration"),
-                                  new XAttribute("value", "true")),
+                                  new XElement("add",
+                                               new XAttribute("key", "disableSourceControlIntegration"),
+                                               new XAttribute("value", "true"))),
                      new XElement("packageSources",
-                                  new XAttribute("key", "nuget.org"),
-                                  new XAttribute("value", "https://api.nuget.org/v3/index.json"),
-                                  new XAttribute("protocolVersion", "3")));
+                                  new XElement("add",
+                                               new XAttribute("key", "nuget.org"),
+                                               new XAttribute("value", "https://api.nuget.org/v3/index.json"),
+                                               new XAttribute("protocolVersion", "3"))));
 
-            var nugetConfigPath = Path.Combine(solutionInfo.SolutionFolder, FileName);
-            
-            Console.WriteLine($"\tGenerate {FileName}");
-
-            if (File.Exists(nugetConfigPath))
-            {
-                using (var nugetConfig = File.OpenWrite(nugetConfigPath))
-                { 
-                    document.Save(nugetConfig, SaveOptions.None);
-                }
-            }
-            else
-            {
-                File.WriteAllText(nugetConfigPath, document.ToString(), Encoding);
-            }
+            return document.ToString();
         }
     }
 }

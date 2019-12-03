@@ -79,7 +79,7 @@
       <DependentUpon>ISettingsGenerator.cs</DependentUpon>
     </Compile>
     <Compile Update="NuGetConfigGenerator.cs">
-      <DependentUpon>SolutionSettingsGeneratorBase.cs</DependentUpon>
+      <DependentUpon>SolutionConfigurationFileGeneratorBase.cs</DependentUpon>
     </Compile>
     <Compile Update="GitignoreGenerator.cs">
       <DependentUpon>SolutionConfigurationFileGeneratorBase.cs</DependentUpon>
