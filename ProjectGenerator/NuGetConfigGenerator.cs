@@ -1,8 +1,7 @@
 namespace SpaceEngineers.ProjectGenerator
 {
+    using System;
     using System.IO;
-    using System.Text;
-    using System.Threading.Tasks;
     using System.Xml.Linq;
     using Core.CompositionRoot.Attributes;
     using Core.CompositionRoot.Enumerations;
@@ -10,15 +9,10 @@ namespace SpaceEngineers.ProjectGenerator
     /// <inheritdoc />
     [Lifestyle(EnLifestyle.Singleton)]
     internal class NuGetConfigGenerator : SolutionSettingsGeneratorBase
-    {   
-        private readonly Encoding _encoding = new UTF8Encoding(true);
+    {
+        private const string FileName = "NuGet.config";
 
-        protected override Task GenerateInternal(SolutionInformation solutionInfo)
-        {
-            return Task.Factory.StartNew(() => ProcessDocument(solutionInfo));
-        }
-
-        private void ProcessDocument(SolutionInformation solutionInfo)
+        protected override void GenerateInternal(SolutionInformation solutionInfo)
         {
             var root = new XElement("configuration");
 
@@ -46,18 +40,20 @@ namespace SpaceEngineers.ProjectGenerator
                                   new XAttribute("value", "https://api.nuget.org/v3/index.json"),
                                   new XAttribute("protocolVersion", "3")));
 
-            var path = Path.Combine(solutionInfo.SolutionFolder, "NuGet.config");
+            var nugetConfigPath = Path.Combine(solutionInfo.SolutionFolder, FileName);
+            
+            Console.WriteLine($"\tGenerate {FileName}");
 
-            if (File.Exists(path))
+            if (File.Exists(nugetConfigPath))
             {
-                using (var nugetConfig = File.OpenWrite(path))
+                using (var nugetConfig = File.OpenWrite(nugetConfigPath))
                 { 
                     document.Save(nugetConfig, SaveOptions.None);
                 }
             }
             else
             {
-                File.WriteAllText(path, document.ToString(), _encoding);
+                File.WriteAllText(nugetConfigPath, document.ToString(), Encoding);
             }
         }
     }

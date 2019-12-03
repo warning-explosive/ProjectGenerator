@@ -30,7 +30,7 @@ namespace SpaceEngineers.ProjectGenerator
 
         private void GenerateInternal(ProjectInformation projectInfo, CsprojSettings csprojSettings)
         {
-            Console.WriteLine($"\tGenerate {projectInfo.ProjectName}.csproj");
+            Console.WriteLine($"\tGenerate {Path.GetFileName(projectInfo.CsprojPath)}");
             
             XDocument? backup = null;
             XDocument? document = null;
