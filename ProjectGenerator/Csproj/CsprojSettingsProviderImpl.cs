@@ -1,6 +1,8 @@
 namespace SpaceEngineers.ProjectGenerator.Csproj
 {
     using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
     using Core.CompositionRoot.Attributes;
     using Core.CompositionRoot.Enumerations;
 
@@ -20,21 +22,20 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
             var isTest = projectInfo.ProjectName.EndsWith(".Test");
             var isApp = isExecutable || isTest;
 
+            var depth = GetProjectDepth(projectInfo, solutionInfo);
+            var relativeOffset = string.Join("", Enumerable.Repeat($"..{Path.DirectorySeparatorChar}", depth));
+
             var dict = new Dictionary<string, string?>
                        {
                            // development
-                           ["TargetFramework"] = isApp
-                                                     ? "netcoreapp3.0"
-                                                     : "netstandard2.0",
+                           ["TargetFramework"] = isApp ? "netcoreapp3.0" : "netstandard2.1",
                            ["LangVersion"] = "latest",
                            ["Nullable"] = "enable",
                            // project identity
                            ["AssemblyName"] = projectInfo.AssemblyInfo.ToString(),
                            ["RootNamespace"] = projectInfo.AssemblyInfo.ToString(),
                            // nuget
-                           ["IsPackable"] = isApp
-                                                ? "false"
-                                                : "true",
+                           ["IsPackable"] = isApp ? "false" : "true",
                            ["Title"] = projectInfo.AssemblyInfo.ToString(),
                            ["Authors"] = AssemblyInformation.SpaceEngineers,
                            ["Company"] = AssemblyInformation.SpaceEngineers,
@@ -43,6 +44,7 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
                            ["RepositoryUrl"] = solutionInfo.RepositoryInfo.ToString(),
                            ["Copyright"] = "Copyright (c) 2019",
                            // analysis
+                           ["CodeAnalysisRuleSet"] = relativeOffset + "ruleset.ruleset",
                            ["RunAnalyzersDuringBuild"] = "true",
                            ["RunAnalyzersDuringLiveAnalysis"] = "true",
                            ["RunAnalyzers"] = "true",
@@ -52,9 +54,7 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
                            ["GeneratePackageOnBuild"] = "false",
                            ["TreatWarningsAsErrors"] = "true",
                            ["AutoGenerateBindingRedirects"] = "true",
-                           ["GenerateDocumentationFile"] = isTest
-                                                               ? "false"
-                                                               : "true",
+                           ["GenerateDocumentationFile"] = isTest ? "false" : "true",
                            // run-time
                            ["TieredCompilation"] = "true",
                        };
@@ -78,6 +78,16 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
         private IDictionary<string, string?> ReleaseSettings()
         {
             return new Dictionary<string, string?>();
+        }
+
+        private static int GetProjectDepth(ProjectInformation projectInfo, SolutionInformation solutionInfo)
+        {
+            var csprojDirectory = Path.GetDirectoryName(projectInfo.CsprojPath);
+
+            var relativePath = csprojDirectory.Substring(solutionInfo.SolutionFolder.Length,
+                                                         csprojDirectory.Length - solutionInfo.SolutionFolder.Length);
+
+            return relativePath.Count(ch => ch == Path.DirectorySeparatorChar);
         }
     }
 }
