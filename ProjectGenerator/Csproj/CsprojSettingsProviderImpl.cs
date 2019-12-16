@@ -28,7 +28,7 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
             var dict = new Dictionary<string, string?>
                        {
                            // development
-                           ["TargetFramework"] = isApp ? "netcoreapp3.0" : "netstandard2.1",
+                           ["TargetFramework"] = isApp ? "netcoreapp3.1" : "netstandard2.1",
                            ["LangVersion"] = "latest",
                            ["Nullable"] = "enable",
                            // project identity
@@ -54,7 +54,7 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
                            ["GeneratePackageOnBuild"] = "false",
                            ["TreatWarningsAsErrors"] = "true",
                            ["AutoGenerateBindingRedirects"] = "true",
-                           ["GenerateDocumentationFile"] = isTest ? "false" : "true",
+                           ["GenerateDocumentationFile"] = "true",
                            // run-time
                            ["TieredCompilation"] = "true",
                        };
