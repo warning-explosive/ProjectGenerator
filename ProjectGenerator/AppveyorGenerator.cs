@@ -49,6 +49,10 @@ max_jobs: 1
 # Build worker image (VM template)
 image: Visual Studio 2019
 
+# scripts that are called at very beginning, before repo cloning
+init:
+  - git config --global core.autocrlf true
+
 # clone directory
 clone_folder: c:\projects\{solutionInfo.SolutionName}
 
