@@ -28,7 +28,7 @@ namespace SpaceEngineers.ProjectGenerator.Csproj
             var dict = new Dictionary<string, string?>
                        {
                            // development
-                           ["TargetFramework"] = isApp ? "netcoreapp3.1" : "netstandard2.1",
+                           ["TargetFramework"] = isApp ? "netcoreapp3.1" : "netstandard2.0",
                            ["LangVersion"] = "latest",
                            ["Nullable"] = "enable",
                            // project identity
